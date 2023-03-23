@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('apps.quiz.urls')),
     path('', include('apps.top.urls')),
     path('api/', include('apps.api.urls')),
+    path('', include('apps.userProfile.urls')),
 ]

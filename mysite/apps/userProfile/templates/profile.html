@@ -1,0 +1,21 @@
+{% extends 'header.html' %}
+{% block title %}Профиль{% endblock title %}
+{% load static %}
+{% block content %}
+<div class="d-flex flex-column bg-white p-5 rounded-4">
+    <p class="mb-1 fs-3">Имя пользователя: <span class="fw-semibold">{{ username}}</span></p>
+    <p class="mb-1 fs-3">Электронная почта: <span class="fw-semibold">{{ email}}</span></p>
+    <p class="mb-1 fs-3">Номер телефона: <span class="fw-semibold">{{phoneNumber }}</span></p>
+    <p class="mb-1 fs-3">Ваши очки: <span class="fw-semibold"></span></p>
+    <span>Easy : {{userScoreEasy}}</span>
+    <span>Medium: {{userScoreMedium}}</span>
+    <span>Hard: {{userScoreHard}}</span>
+    <p class="mb-3 fs-3">Ваши места в топе: <span class="fw-semibold"></span></p>
+    <span>Easy : {{currentPlaceEasy}}</span>
+    <span>Medium: {{currentPlaceMedium}}</span>
+    <span>Hard: {{currentPlaceHard}}</span>
+    <!-- Модалку для смены пароля сделай, форму потом вставлю -->
+    <a href="{% url 'logout' %}" class="btn btn-primary d-flex align-self-center
+        fs-5">Выйти из аккаунта</a>
+</div>
+{% endblock content %}

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.quiz',
     'apps.top',
     'apps.api',
+    'apps.userProfile',
 ]
 
 MIDDLEWARE = [

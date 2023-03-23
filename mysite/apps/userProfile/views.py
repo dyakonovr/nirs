@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from apps.api.models import UserScore
 from apps.authentication.models import User
 from django.contrib.auth.decorators import login_required
+from .forms import ChangePasswordForm
+from django.contrib import messages
 
 @login_required
 def profile(request):
@@ -49,7 +51,17 @@ def profile(request):
         username_ = User.objects.get(id=user_id).username
         if username == username_:
             currentPlaceHard = count
-
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            newPassword = form.cleaned_data
+            if newPassword['newPassword'] == newPassword['passwordConfirm']:
+                user = User.objects.get(id=currentUser.id)
+            else:
+                messages.error(request,'Пароли не совпадают!')
+        return redirect('profile')
+    else:
+        form = ChangePasswordForm()
     content = {
         'username': username,
         'email': email,

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Profile</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    </head>
+    <body class="bg-info vh-100">
+        <div class="container-fluid d-flex justify-content-center align-items-center h-100">
+            <div class="d-flex flex-column bg-white p-5 rounded-4">
+                <p class="mb-1 fs-3">Имя пользователя: <span class="fw-semibold">{{ username }}</span></p>
+                <p class="mb-1 fs-3">Электронная почта: <span class="fw-semibold">{{ email }}</span></p>
+                <p class="mb-1 fs-3">Номер телефона: <span class="fw-semibold">{{ phoneNumber }}</span></p>
+                <p class="mb-1 fs-3">Ваши очки: <span class="fw-semibold"></span></p>
+                <span>Easy : {{userScoreEasy}}</span>
+                <span>Medium: {{userScoreMedium}}</span>
+                <span>Hard: {{userScoreHard}}</span>
+                <p class="mb-3 fs-3">Ваши места в топе: <span class="fw-semibold"></span></p>
+                <span>Easy : {{currentPlaceEasy}}</span>
+                <span>Medium: {{currentPlaceMedium}}</span>
+                <span>Hard: {{currentPlaceHard}}</span>
+                <a href="{% url 'logout' %}" class="btn btn-primary d-flex align-self-center fs-5">Выйти из аккаунта</a>
+            </div>
+        </div>
+    </body>
+</html>

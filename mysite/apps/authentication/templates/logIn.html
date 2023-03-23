@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация</title>
+    <link rel="stylesheet" href="{% static 'css/logIn.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+
+<body class="bg-info vh-100">
+    <div class="container-fluid d-flex justify-content-center align-items-center h-100">
+        <form action="" method="post" class="form col-3 p-5 bg-white rounded-4">
+            <h1 class="text-center mb-4">Авторизация</h1>
+            {% csrf_token %}
+            {% for field in form %}
+                {{field}}
+            {% endfor %}
+            {% if messages %}
+                {% for message in messages %}
+                    <span class="error-message">{{message}}</span>
+                {% endfor %}
+            {% endif %}
+            <div class="d-flex align-items-center justify-content-between">
+                <button type="submit" class="login-button btn btn-primary">Войти</button>
+                <a href="{% url 'signUp' %}" class="signup-redirect">Зарегистрироваться</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

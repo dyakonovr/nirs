@@ -15,8 +15,10 @@ def profile(request):
     username = current_user.username
     email = current_user.email
     phoneNumber = current_user.phoneNumber
-
-    userScores = UserScores.objects.get(user=current_user).__dict__
+    try:
+        userScores = UserScores.objects.get(user=current_user).__dict__
+    except:
+        userScores = UserScores.objects.create(user=current_user).__dict__
     del userScores['_state'], userScores['user_id']
 
     scores = list(userScores.copy().values())
@@ -32,20 +34,21 @@ def profile(request):
         if form.is_valid():
             newPassword = form.cleaned_data
             if newPassword['newPassword'] == newPassword['passwordConfirm']:
-                if newPassword['oldPassword'] == User.objects.get(username=username).password:
-                    user = User.objects.get(username=username)
-                    user.set_password(newPassword['password'])
-                    user.save()
-                    auth_login(request, authenticate(
-                        username=username, password=newPassword['newPassword']))
-                    messages.success(request, "Пароль успешно изменён!")
-                    return redirect('profile')
+                user = User.objects.get(username=username)
+                if user.check_password(newPassword['oldPassword']):
+                    if newPassword['newPassword'] != newPassword['oldPassword']:
+                        user.set_password(newPassword['newPassword'])
+                        user.save()
+                        auth_login(request, authenticate(
+                            username=username, password=newPassword['newPassword']))
+                        messages.success(request, "Пароль успешно изменён!")
+                    else:
+                        messages.error(request, "Ваш старый пароль совпадает с новым!")
                 else:
                     messages.error(request, 'Неверный старый пароль')
-                    return redirect('profile')
             else:
                 messages.error(request, "Пароли не совпадают!")
-                return redirect('profile')
+        return redirect('profile')
     else:
         form = ChangePasswordForm()
 

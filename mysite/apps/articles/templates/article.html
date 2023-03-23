@@ -1,0 +1,136 @@
+{% extends 'header.html' %}
+{% block title %}{{ topicName }}{% endblock title %}
+
+{% block content %}
+{% load replace %}
+{% load index %}
+{% load dict_key %}
+
+<div class="d-flex h-100">
+    <div class="col-3 me-5">
+        <div class="position-sticky top-0 pt-4 d-flex flex-column">
+            <strong class="fs-6 mb-2">Ссылки на другие статьи</strong>
+            {% for topicname, topicLink in topicNamesLinks.items %}
+                {% if topicname == topicName %}
+                    <a href="{{topicLink}}" class="text-decoration-none mb-1 link-info">{{forloop.counter}}.
+                        {{topicname}}</a>
+                {% else %}
+                    <a href="{{topicLink}}" class="text-decoration-none mb-1 ">{{forloop.counter}}.
+                        {{topicname}}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-8 ms-auto">
+        {% if testFlag == False %}
+            <h1>{{ topicName }}</h1>
+            {% if mainPhotos|length == 1 %}
+                <img src="{{mainPhotos|index:0}}" width="300" height="400" alt="{{ topicName }}" class="float-end ms-3 d-block">
+            {% endif %}
+            {% for text in textRdy %}
+                {% with forloop.counter0 as parent_counter %}
+                {% with forloop.counter as parent_counter_from_one %}
+                {% for piece in text %}
+                    {% with forloop.counter as counter %}
+                    {% if '$$$' in piece %}
+                        <div class="bg-info-subtle d-flex align-items-center p-3 rounded-4
+                            my-4">
+                            <p class="text-black mb-0 fs-4">{{piece|replace:"$$$|"}}</p>
+                        </div>
+                    {% elif "```" in piece %}
+                        <h2 class="fs-3 fw-500 mt-4">{{piece|replace:"```|"}}</h2>
+                        <img src="{{mainPhotos|index:parent_counter}}" width="300" height="400" alt="" class="float-end ms-3 d-block">
+                    {% elif "***" in piece %}
+                        <h3 class="fs-3 fw-500 mt-4">{{piece|replace:"***|"}}</h3>
+                    {% else %}
+                        <p class="mb-2 fs-5">{{piece}}</p>
+                    {% endif %}
+                    {% for paragraphTopic,photo in allPhotos.items %}
+                        {% if paragraphTopic.1 == parent_counter_from_one and paragraphTopic.0 == counter %}
+                            <img src="{{ photo }}" alt="" class="my-3 d-block mx-auto">
+                        {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                {% endfor %}
+                {% if movies|length == textRdy|length and movies|length != 1 %}
+                    <iframe src="{{ movies|index:parent_counter }}" title="YouTube video player" class="d-flex
+                    mx-auto my-3"
+                    style="width: 864px; height: 500px" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+                    gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+                {% endif %}
+                {% endwith %}
+                {% endwith %}
+            {% endfor %}
+
+            {% if movies|length == 1 %}
+                <iframe src="{{ movies.0 }}" title="YouTube video player" class="d-flex
+                    mx-auto my-3"
+                    style="width: 864px; height: 500px" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+                    gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+            {% endif %}
+            <div class="bg-info-subtle d-flex align-items-center p-3 rounded-4
+                                    my-4">
+                <p class="text-black mb-0 fs-4">Остались вопросы? Посмотрите <a href="{{presentation}}" class="text-decoration-none">презентацию</a> и все встанет на свои места!</p>
+            </div>
+            <h2>Тест</h2>
+            <form method="post" class="d-flex flex-column">
+                {% csrf_token %}
+                {% for question, choices in test.items %}
+                    {% with forloop.counter as parent_counter %}
+                    {% if forloop.counter == 1 %}
+                    <div>
+                        <p class="mb-2">1. {{question.question}}</p>
+                        {% for choice in choices %}
+                        <label for="{{forloop.counter}}" class="d-flex
+                            align-items-center"><input class="me-2 form-check-input"
+                                name="{{question.id}}" id="{{forloop.counter}}"
+                                value="{{choice.id}}" type="radio"
+                                required="True" />{{choice.option}}</label>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div>
+                        <p class="mt-3 mb-2">{{parent_counter}}. {{question.question}}</p>
+                        {% for choice in choices %}
+                            {% with forloop.counter|add:"100" as counter %}
+                            {% widthratio counter 1 parent_counter as flag %}
+                            <label for="{{flag}}" class="d-flex align-items-center"><input
+                                    class="me-2 form-check-input"
+                                    name="{{question.id}}" id="{{flag}}"
+                                    value="{{choice.id}}" type="radio"
+                                    required="True" />{{choice.option}}</label>
+                            {% endwith %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                {% endfor %}
+                <button type="submit" class="col-2 mt-3 mb-4 btn btn-primary">Отправить
+                    тест</button>
+            </form>
+        {% else %}
+            <div class="mt-3 mb-5 mx-auto bg-info-subtle d-flex flex-column justify-content-center p-4 rounded-4">
+                <h1 class="fs-1 fw-500 mb-3"> Результат теста</h1>
+                <span class="fs-3">Вы набрали {{userTestScore}}/7 баллов!</span>
+                {% if testScore == 7 %}
+                    <span class="fs-3">Идеальная работа!</span>
+                {% elif testScore > 5 %}
+                    <span class="fs-3">Вы отлично справились!</span>
+                {% elif testScore > 3 %}
+                    <span class="fs-3">Вы хорошо постарались!</span>
+                {% else %}
+                    <span class="fs-3">Неплохо, попробуйте ещё раз!</span>
+                {% endif %}
+                <div class="d-flex align-items-center justify-content-between mt-5">
+                    <a class="btn btn-primary" href="{{topicNamesLinks|dict_key:topicName}}">Вернуться назад к статье</a>
+                    <a class="btn btn-primary" href="{{nextTopicLink}}">Перейти к следующей статье</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

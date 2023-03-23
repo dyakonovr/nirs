@@ -1,0 +1,10 @@
+{% extends 'header.html' %}
+{% block title %} Главная {% endblock title %}
+{% block header %} Главная {% endblock header %}
+{% block content %}
+<div class="d-flex flex-column">
+    {% for topic in allTopics %}
+        <a href="{% url 'article'%}?topic={{topic.id}}">{{forloop.counter}}. {{topic.topic}}</a>
+    {% endfor %}
+</div>
+{% endblock content %}

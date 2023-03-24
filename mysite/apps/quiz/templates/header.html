@@ -8,13 +8,13 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <title>{% block title %}{% endblock title %}</title>
 </head>
-<body>
-    <div class = "container-fluid d-flex justify-content-center align-items-center h-100">
-        <a href="">Квиз</a>
-        <a href="">Профиль</a>
-        <a href="">Топ игроков</a>
+<body class="bg-info container-xxl position-relative d-flex flex-column">
+    <div class="d-flex align-items-center col-10 mt-2 d-flex mx-auto">
+        <a href="{% url 'quiz' %}" class="link-light fs-3 text-decoration-none">EQuiz</a>
+        <a href="{% url 'profile' %}" class="ms-auto link-light text-decoration-none">Профиль</a>
+        <a href="{% url 'top' %}" class="ms-3 link-light text-decoration-none">Топ игроков</a>
     </div>
-    <div>
+    <div class="mt-5 col-7 d-flex flex-column mx-auto">
         {% block content %}
         {% endblock content %}
     </div>

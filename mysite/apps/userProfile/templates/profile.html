@@ -3,6 +3,14 @@
 {% load static %}
 {% block content %}
 <div class="d-flex flex-column bg-white p-5 rounded-4">
+    {% if messages %}
+        {% for message in messages %}
+            <!-- ошибка при смене -->
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}<span>{{message}}</span>{% endif %} 
+            <!-- успешная смена -->
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}<span>{{message}}</span>{% endif %}
+        {% endfor %}
+    {% endif %}
     <p class="mb-1 fs-3">Имя пользователя: <span class="fw-semibold">{{ username}}</span></p>
     <p class="mb-1 fs-3">Электронная почта: <span class="fw-semibold">{{ email}}</span></p>
     <p class="mb-1 fs-3">Номер телефона: <span class="fw-semibold">{{phoneNumber }}</span></p>
@@ -14,7 +22,14 @@
     <span>Easy : {{currentPlaceEasy}}</span>
     <span>Medium: {{currentPlaceMedium}}</span>
     <span>Hard: {{currentPlaceHard}}</span>
-    <!-- Модалку для смены пароля сделай, форму потом вставлю -->
+    <!-- Модалку для смены пароля сделай, форму ниже -->
+    <form method="post" action="">
+        {% csrf_token %}
+        {% for field in form %}
+            {{ field }}
+        {% endfor %}
+        <button type="submit">Изменить пароль</button>
+    </form>
     <a href="{% url 'logout' %}" class="btn btn-primary d-flex align-self-center
         fs-5">Выйти из аккаунта</a>
 </div>

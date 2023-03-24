@@ -4,6 +4,7 @@ from apps.authentication.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import ChangePasswordForm
 from django.contrib import messages
+from django.contrib.auth import login as auth_login ,authenticate
 
 @login_required
 def profile(request):
@@ -51,17 +52,30 @@ def profile(request):
         username_ = User.objects.get(id=user_id).username
         if username == username_:
             currentPlaceHard = count
+
     if request.method == 'POST':
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
             newPassword = form.cleaned_data
             if newPassword['newPassword'] == newPassword['passwordConfirm']:
-                user = User.objects.get(id=currentUser.id)
+                user = User.objects.get(username=username)
+                if user.check_password(newPassword['oldPassword']):
+                    if newPassword['newPassword'] != newPassword['oldPassword']:
+                        user.set_password(newPassword['newPassword'])
+                        user.save()
+                        auth_login(request, authenticate(username=username,password=newPassword['newPassword']))
+                        messages.success(request, 'Пароль успешно изменён!')
+                        return redirect('profile')
+                    else:
+                        messages.error(request, 'Новый пароль не может совпадать со старым!')
+                else:
+                    messages.error(request, 'Неверный старый пароль!')
             else:
                 messages.error(request,'Пароли не совпадают!')
         return redirect('profile')
     else:
         form = ChangePasswordForm()
+
     content = {
         'username': username,
         'email': email,
@@ -72,6 +86,7 @@ def profile(request):
         'currentPlaceEasy': currentPlaceEasy,
         'currentPlaceMedium': currentPlaceMedium,
         'currentPlaceHard': currentPlaceHard,
+        'form': form,
     }
 
     return render(request, 'profile.html', context=content)

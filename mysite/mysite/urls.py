@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('apps.articles.urls')),
     path('', include('apps.mainPage.urls')),
     path('', include('apps.userProfile.urls')),
+    path('', include('apps.additionalStuff.urls')),
 ]
 
 if settings.DEBUG:

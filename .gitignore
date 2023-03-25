@@ -1,0 +1,3 @@
+/mysite/apps/**/__pycache__
+/mysite/mysite/__pycache__
+/mysite/apps/**/migrations/__pycache__

@@ -3,6 +3,6 @@
 {% load replace %}
 {% block content %}
 {% for term in terms %}
-    <p>{{forloop.counter}}. {{term.term}}<spam>{{term.definition}}</span></p>
+    <p>{{forloop.counter}}. {{term.term}}<spam>{{term.definition}} : {{term.topic_id}}</span></p>
 {% endfor %}
 {% endblock content %}

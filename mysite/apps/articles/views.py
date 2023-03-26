@@ -2,28 +2,30 @@ from urllib import parse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound
 from django.shortcuts import render, redirect, HttpResponseRedirect
-from .models import Topic, Question, QuestionOption, TopicMaterials, Photos
+from .models import Topic, Question, QuestionOption, TopicMaterials
 from apps.userProfile.models import UserScores
+from apps.additionalStuff.models import Dictionary
 
 
 @login_required
 def article(request):
-    topicNum = request.GET.get('topic')
+    topicId = request.GET.get('topic')
 
-    if Topic.objects.filter(id=topicNum).exists():
+    if Topic.objects.filter(id=topicId).exists():
 
         # Основые переменные, которые передаются на страницу
         mainPhotos = TopicMaterials.objects.get(
-            topic=topicNum).mainPhoto.split(',')
-        allPhotos = {}
+            topic=topicId).mainPhoto.split(',')
+        allPhotos = TopicMaterials.objects.get(
+            topic=topicId).photos.split('\n')
         presentation = TopicMaterials.objects.get(
-            topic=topicNum).presentation
-        movies = TopicMaterials.objects.get(topic=topicNum).videos.split(',')
-        topicName = Topic.objects.get(id=topicNum).topic.strip()
+            topic=topicId).presentation
+        movies = TopicMaterials.objects.get(topic=topicId).videos.split(',')
+        topicName = Topic.objects.get(id=topicId).topic.strip()
         questionChoices = {}
-        textRdy = TopicMaterials.objects.get(topic=topicNum).text
+        text = ''
         topicNamesLinks = {}
-        nextTopicLink = f'article?topic={int(topicNum)+1}'
+        nextTopicLink = f'article?topic={int(topicId)+1}'
 
         # Смена переменных в сессии юзера для рендера результатов теста
         if request.session.get('testFlag') is None:
@@ -37,26 +39,30 @@ def article(request):
 
         if request.session['onResultPage'] == True:
             request.session['onResultPage'] = False
-        
-        # Получение всех картинок
-        photos = Photos.objects.filter(topic=topicNum)
-        for photo in photos:
-            allPhotos[photo.paragraph] = photo.photo
-
-        countOfMainPhotos = textRdy.count('^^')
+        # Вставка в текст фото, видео, ссылок
+        textRdy = TopicMaterials.objects.get(topic=topicId).text
         for photo in mainPhotos:
-            if not photo == '':
-                textRdy = textRdy.replace("^^", rf'<img src="{photo}" width="300" height="400" alt="" class="float-end ms-3 d-block">',1)
+            if photo != '':
+                textRdy = textRdy.replace(
+                    "^^", rf'<img src="{photo}" width="300" height="400" alt="" class="float-end ms-3 d-block">', 1)
+        for photo in allPhotos:
+            if photo != '':
+                textRdy = textRdy.replace(
+                    "$", rf'<img src="{photo}" alt="" class="my-3 d-block mx-auto w-100">', 1)
+        for movie in movies:
+            if movie != '':
+                textRdy = textRdy.replace(
+                    "@", rf'<iframe src="{ movie }" title="YouTube video player" class="d-flex mx-auto my-3" style="width: 864px; height: 500px" frameborder="0"allow="accelerometer; autoplay; clipboard-write; encrypted-media;gyroscope; picture-in-picture; web-share"allowfullscreen></iframe>', 1)
+        dict = Dictionary.objects.filter(topic=topicId)
+        for term in dict:
+            if term != '':
+                textRdy = textRdy.replace(
+                    "%", rf'<a href="directory#{term.id}" id="{term.id}">{term.id}<a/>', 1)
         text = textRdy.split('\n')
-        counter = 2
-        print(allPhotos)
-        for paragraph, photo in allPhotos.items():
-            print(paragraph - countOfMainPhotos + counter)
-            text.insert(paragraph - countOfMainPhotos + counter, rf'<img src="{photo}" alt="" class="my-3 d-block mx-auto">')
-            counter += 1
+
         # Получение всех вопросов + вариантов ответов для данной темы
         questions = [
-            question for question in Question.objects.filter(topic=topicNum)]
+            question for question in Question.objects.filter(topic=topicId)]
 
         allChoices = []
 
@@ -74,11 +80,11 @@ def article(request):
         topicObjects = Topic.objects.all()
         for topic in topicObjects:
             topicNamesLinks[topic.topic] = f'article?topic={topic.id}'
-        
+
         # Обработка теста
         if request.method == 'POST':
             userScore = UserScores.objects.get(user=request.user).__dict__[
-                f'user_score_{topicNum}']
+                f'user_score_{topicId}']
 
             userchoices = request.POST.copy()
             del userchoices['csrfmiddlewaretoken']
@@ -95,12 +101,13 @@ def article(request):
 
             if testScore > userScore:
                 UserScores.objects.update_or_create(user=request.user, defaults={
-                                                    f"user_score_{topicNum}": testScore})
+                                                    f"user_score_{topicId}": testScore})
 
-            return HttpResponseRedirect(f'article?topic={topicNum}')
+            return HttpResponseRedirect(f'article?topic={topicId}')
 
         userTestScore = request.session['userTestScore']
         testFlag = request.session['testFlag']
+        
         content = {
             'topicName': topicName,
             'test': questionChoices,

@@ -2,9 +2,13 @@
 {% block title %}Словарь{% endblock title %}
 {% load replace %}
 {% block content %}
-<h1 class="mb-3">Словарь терминов</h1>
-<!-- Для заголовков тем используй <h2 class="fs-3 mb-1 mt-3">title</h2> -->
-{% for term in terms %}
-    <p class="mb-2 mt-0 fs-5">{{forloop.counter}}. <span class="fw-bold">{{term.term}}</span>{{term.definition}} : {{term.topic_id}}</p>
+<h1 class="mb-3">Справочник</h1>
+{% for topic, terms in topicDict.items %}
+    <h2 class="fs-3 mb-1 mt-3">{{topic}}</h2>
+    <h3 class="fs-3 mb-1 mt-3">Термины</h3>
+        {% for term in terms %}
+            <p class="mb-2 mt-0 fs-5"><span class="fw-bold" id="{{term.id}}">{{term.term}}</span>{{term.definition}}</p>
+        {% endfor %}
+    <h3 class="">Даты</h3>
 {% endfor %}
 {% endblock content %}

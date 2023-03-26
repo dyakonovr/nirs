@@ -32,15 +32,7 @@ class TopicMaterials(models.Model):
     mainPhoto = models.URLField(default='')
     videos = models.URLField(default='')
     presentation = models.TextField()
+    photos = models.URLField(default='')
 
     def __str__(self):
         return self.topic
-
-
-class Photos(models.Model):
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
-    paragraph = models.IntegerField()
-    photo = models.URLField()
-
-    def __str__(self):
-        return self.photo

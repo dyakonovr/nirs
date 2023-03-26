@@ -1,1 +1,4 @@
-**/__pycache__
+mysite/apps/**/__pycache__
+mysite/apps/**/migrations/__pycache__
+mysite/apps/**/migrations/__pycache__
+mysite/apps/**/templatetags/__pycache__

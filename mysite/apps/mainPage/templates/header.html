@@ -13,7 +13,7 @@
         <title>{% block title %}{% endblock title %}</title>
     </head>
     <body class="bg-white">
-            <header class="py-4"> 
+            <header class="py-4 position-fixed top-0 bg-white" style="left: calc((100vw - 1320px - 15px) / 2); width: 1320px;"> 
                  <div class="container d-flex align-items-center">
                     <a href="{% url 'mainPage' %}" class="text-decoration-none link-info fs-2">HisWay</a>
                     <a href="{% url 'mainPage' %}" class="ms-auto text-decoration-none link-primary">Главная</a>
@@ -22,7 +22,7 @@
                     <a href="{% url 'dates' %}" class="ms-3 text-decoration-none link-primary">Даты</a>
                  </div>
             </header>
-            <main class="mt-4">
+            <main style="margin: 100px 0 0;">
                 <div class="container">
                     <h1 class="mb-2">{% block header %}{% endblock header %}</h1>
                     <div>
@@ -31,5 +31,19 @@
                     </div>
                 </div>
             </main>
+            <footer class="py-4">
+                <div class="container">
+                    <div class="text-center d-flex flex-column align-items-center">
+                        <div class="d-flex align-items-center w-100">
+                            <a href="{% url 'mainPage' %}" class="text-decoration-none link-info fs-2">HisWay</a>
+                            <p class="my-0 ms-auto">Ссылка на проект по экономике, разработанный нашей командой: <a class="link-primary" href="#">link</a>
+                            </p>
+                        </div>
+                        <p class="my-2">Проект разработан Дьяконовым Р.Р., Вражкиным С.А., Радаевым А.В. Вся информация взята из открытых источников, все права защищены,
+                            &copy; 2023 г.</p>
+                        <div class="d-flex align-items-center">Наши контакты: <ul></ul></div>
+                    </div>
+                </div>
+            </footer>
     </body>
 </html>

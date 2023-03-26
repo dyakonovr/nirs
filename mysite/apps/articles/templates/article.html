@@ -24,17 +24,17 @@
     <div class="col-8 ms-auto">
         {% if testFlag == False %}
             <h1>{{ topicName }}</h1>
-            {% comment %} {% if mainPhotos|length == 1 %}
+            <!-- {% comment %} {% if mainPhotos|length == 1 %}
                 <img src="{{mainPhotos|index:0}}" width="300" height="400" alt="{{ topicName }}" class="float-end ms-3 d-block">
-            {% endif %} {% endcomment %}
+            {% endif %} {% endcomment %} -->
             {% for text in textRdy %}
-                {% comment %} {% with forloop.counter0 as parent_counter %}
+                <!-- {% comment %} {% with forloop.counter0 as parent_counter %}
                 {% with forloop.counter as parent_counter_from_one %} {% endcomment %}
-                {% comment %} {% for piece in text %} {% endcomment %}
+                {% comment %} {% for piece in text %} {% endcomment %} -->
                 {% autoescape off %}
                 <p>{{text}}</p>
                 {% endautoescape %}
-                    {% comment %} {% with forloop.counter as counter %}
+                    <!-- {% comment %} {% with forloop.counter as counter %}
                     {% endif %}
                     {% for paragraphTopic,photo in allPhotos.items %}
                         {% if paragraphTopic.1 == parent_counter_from_one and paragraphTopic.0 == counter %}
@@ -52,9 +52,9 @@
                     allowfullscreen></iframe>
                 {% endif %}
                 {% endwith %}
-                {% endwith %} {% endcomment %}
+                {% endwith %} {% endcomment %} -->
             {% endfor %}
-            {% comment %} {% if movies|length == 1 %}
+            <!-- {% comment %} {% if movies|length == 1 %}
                 <iframe src="{{ movies.0 }}" title="YouTube video player" class="d-flex
                     mx-auto my-3"
                     style="width: 864px; height: 500px" frameborder="0"
@@ -63,7 +63,7 @@
                     allowfullscreen></iframe>
             {% endif %} {% endcomment %}
             <div class="bg-info-subtle d-flex align-items-center p-3 rounded-4
-                                    my-4">
+                                    my-4"> -->
                 <p class="text-black mb-0 fs-4">Остались вопросы? Посмотрите <a href="{{presentation}}" class="text-decoration-none">презентацию</a> и все встанет на свои места!</p>
             </div>
             <h2>Тест</h2>

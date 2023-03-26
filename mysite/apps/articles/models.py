@@ -41,7 +41,6 @@ class Photos(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     paragraph = models.IntegerField()
     photo = models.URLField()
-    microTopic = models.IntegerField(default=1)
 
     def __str__(self):
         return self.photo

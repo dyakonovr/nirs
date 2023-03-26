@@ -21,7 +21,7 @@ def article(request):
         movies = TopicMaterials.objects.get(topic=topicNum).videos.split(',')
         topicName = Topic.objects.get(id=topicNum).topic.strip()
         questionChoices = {}
-        text = []
+        textRdy = TopicMaterials.objects.get(topic=topicNum).text
         topicNamesLinks = {}
         nextTopicLink = f'article?topic={int(topicNum)+1}'
 
@@ -37,13 +37,23 @@ def article(request):
 
         if request.session['onResultPage'] == True:
             request.session['onResultPage'] = False
-
-        # Зачистка списка
-        try:
-            mainPhotos.remove('')
-        except:
-            pass
         
+        # Получение всех картинок
+        photos = Photos.objects.filter(topic=topicNum)
+        for photo in photos:
+            allPhotos[photo.paragraph] = photo.photo
+
+        countOfMainPhotos = textRdy.count('^^')
+        for photo in mainPhotos:
+            if not photo == '':
+                textRdy = textRdy.replace("^^", rf'<img src="{photo}" width="300" height="400" alt="" class="float-end ms-3 d-block">',1)
+        text = textRdy.split('\n')
+        counter = 2
+        print(allPhotos)
+        for paragraph, photo in allPhotos.items():
+            print(paragraph - countOfMainPhotos + counter)
+            text.insert(paragraph - countOfMainPhotos + counter, rf'<img src="{photo}" alt="" class="my-3 d-block mx-auto">')
+            counter += 1
         # Получение всех вопросов + вариантов ответов для данной темы
         questions = [
             question for question in Question.objects.filter(topic=topicNum)]
@@ -60,21 +70,11 @@ def article(request):
         for i in range(len(questions)):
             questionChoices[questions[i]] = allChoices[i]
 
-        # Получение текста статьи
-        text = TopicMaterials.objects.get(topic=topicNum).text.split('#')
-        for i in range(len(text)):
-            text[i] = text[i].split('\n')
-
         # Получение всех тем + их ссылок
         topicObjects = Topic.objects.all()
         for topic in topicObjects:
             topicNamesLinks[topic.topic] = f'article?topic={topic.id}'
-
-        # Получение всех картинок
-        photos = Photos.objects.filter(topic=topicNum)
-        for photo in photos:
-            allPhotos[photo.paragraph, photo.microTopic] = photo.photo
-
+        
         # Обработка теста
         if request.method == 'POST':
             userScore = UserScores.objects.get(user=request.user).__dict__[

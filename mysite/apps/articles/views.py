@@ -14,13 +14,16 @@ def article(request):
     if Topic.objects.filter(id=topicId).exists():
 
         # Основые переменные, которые передаются на страницу
-        mainPhotos = TopicMaterials.objects.get(
-            topic=topicId).mainPhoto.split(',')
         allPhotos = TopicMaterials.objects.get(
             topic=topicId).photos.split('\n')
-        presentation = TopicMaterials.objects.get(
-            topic=topicId).presentation
-        movies = TopicMaterials.objects.get(topic=topicId).videos.split(',')
+        try:
+            movies = TopicMaterials.objects.get(topic=topicId).videos.split(',')
+            presentation = TopicMaterials.objects.get(topic=topicId).presentation
+            mainPhotos = TopicMaterials.objects.get(topic=topicId).mainPhoto.split(',')
+        except:
+            movies = []
+            presentation = ''
+            mainPhotos = []
         topicName = Topic.objects.get(id=topicId).topic.strip()
         questionChoices = {}
         text = ''

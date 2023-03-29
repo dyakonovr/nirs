@@ -17,6 +17,7 @@ class UserScores(models.Model):
     user_score_20 = models.IntegerField(default=0)
     user_score_21 = models.IntegerField(default=0)
     user_score_22 = models.IntegerField(default=0)
+    user_score_23 = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username

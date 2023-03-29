@@ -53,7 +53,11 @@
                                 <tr>
                                     <th scope="row">{{ forloop.counter }}</th>
                                     <td>{{ topic }}</td>
-                                    <td class="text-center">{{ score }}/7</td>
+                                    {% if topic.id == 23 %}
+                                        <td class="text-center">{{ score }}/32</td>
+                                    {% else %}
+                                        <td class="text-center">{{ score }}/10</td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </tbody>

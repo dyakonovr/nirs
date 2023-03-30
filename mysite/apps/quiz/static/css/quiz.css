@@ -43,8 +43,8 @@ body {
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  padding: 100px 50px;
   width: 100%;
+  padding: 50px
 }
 
 .window__counter {
@@ -61,13 +61,20 @@ body {
 
 .window__title {
   font-size: 35px;
-  margin: 10px 0 0
+  margin: 0
 }
 
 .window__list {
   list-style: none;
   margin: 30px 0 20px;
   padding: 0
+}
+
+.window__list--grid {
+  grid-gap: 10px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, 1fr)
 }
 
 .window__answer {
@@ -99,10 +106,69 @@ body {
   color: #fff
 }
 
+.window__answer--red {
+  background-color: red;
+  border-color: red
+}
+
+.window__answer--grid {
+  color: #fff;
+  color: var(--color-white);
+  margin-bottom: 0 !important
+}
+
+.window__answer--grid:first-child {
+  background-color: green;
+  border-color: green
+}
+
+.window__answer--grid:first-child:hover {
+  background-color: #fff;
+  background-color: var(--color-white);
+  color: green
+}
+
+.window__answer--grid:nth-child(2) {
+  background-color: #b146ea;
+  border-color: #b146ea
+}
+
+.window__answer--grid:nth-child(2):hover {
+  background-color: #fff;
+  background-color: var(--color-white);
+  color: #b145ea
+}
+
+.window__answer--grid:nth-child(3) {
+  background-color: #3838ff;
+  border-color: #3838ff
+}
+
+.window__answer--grid:nth-child(3):hover {
+  background-color: #fff;
+  background-color: var(--color-white);
+  color: #3838ff
+}
+
+.window__answer--grid:last-child {
+  background-color: red;
+  border-color: red
+}
+
+.window__answer--grid:last-child:hover {
+  background-color: #fff;
+  background-color: var(--color-white);
+  color: red
+}
+
 .window--center {
   align-items: center;
   justify-content: center;
   text-align: center
+}
+
+.window__text {
+  margin: 0 0 30px
 }
 
 .window__btn {
@@ -116,7 +182,6 @@ body {
   cursor: pointer;
   font-size: 18px;
   height: 50px;
-  margin: 30px 0 0;
   transition: background-color .15s ease-in-out, color .15s ease-in-out;
   width: 200px
 }
@@ -134,10 +199,20 @@ body {
   width: fit-content
 }
 
+.window__btn--in-input {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  height: 51.2px;
+  position: absolute;
+  right: 0;
+  top: 20px
+}
+
 .window__header {
   align-items: center;
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
+  margin: 0 0 10px
 }
 
 .window__link {
@@ -155,6 +230,110 @@ body {
 .window__link:hover {
   border-color: #fff;
   border-color: var(--color-white)
+}
+
+.window__btns-row {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 40px 0 0;
+  position: relative;
+  width: 100%
+}
+
+.window__answer-btn {
+  align-items: center;
+  border-radius: 5px;
+  color: #fff;
+  color: var(--color-white);
+  cursor: pointer;
+  display: flex;
+  font-size: 18px;
+  height: 50px;
+  justify-content: center;
+  transition: background-color .15s ease-in-out, color .15s ease-in-out;
+  width: calc(50% - 5px)
+}
+
+.window__answer-btn--green {
+  background-color: green;
+  border: 2px solid green
+}
+
+.window__answer-btn--green:hover {
+  background-color: #fff;
+  background-color: var(--color-white);
+  color: green
+}
+
+.window__answer-btn--red {
+  background-color: red;
+  border: 2px solid red
+}
+
+.window__answer-btn--red:hover {
+  background-color: #fff;
+  background-color: var(--color-white);
+  color: red
+}
+
+.window__answer-btn--default {
+  background-color: #0dcbf0;
+  background-color: var(--color-main);
+  border: 2px solid #0dcbf0;
+  border: 2px solid var(--color-main)
+}
+
+.window__answer-btn--default:hover {
+  background-color: #fff;
+  background-color: var(--color-white);
+  color: #0dcbf0;
+  color: var(--color-main)
+}
+
+.window__descrs {
+  margin: 20px 0 0
+}
+
+.window__descr {
+  font-size: 18px;
+  margin: 0
+}
+
+.window__descr:not(:last-child) {
+  margin: 0 0 10px;
+}
+
+.window__icon {
+  height: 30px;
+  margin: 0 5px 0 0;
+  width: 30px
+}
+
+.window__wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center
+}
+
+.window__img {
+  display: block;
+  height: 100%;
+  margin: 20px 0 0;
+  width: 500px
+}
+
+.window__input {
+  border: 2px solid #0dcbf0;
+  border: 2px solid var(--color-main);
+  border-radius: 5px;
+  font-size: 17px;
+  height: 37px;
+  margin: 20px 0 0;
+  outline: none;
+  padding: 6px 205px 5px 5px;
+  width: 100%
 }
 
 .switch {
@@ -236,4 +415,4 @@ input:checked+.slider:before {
   width: 1px
 }
 
-/*# sourceMappingURL=main.744748a3.css.map*/
+/*# sourceMappingURL=main.f1ebed94.css.map*/

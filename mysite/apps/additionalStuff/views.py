@@ -10,7 +10,7 @@ def dict(request):
     content = {
         'topicDict': topicDict,
     }
-    return render(request, 'dict.html', context=content)
+    return render(request, 'dir.html', context=content)
 
 
 def dates(request):

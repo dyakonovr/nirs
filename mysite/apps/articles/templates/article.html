@@ -8,7 +8,7 @@
 
 <div class="d-flex h-100">
     <div class="col-3 me-5">
-        <div class="position-sticky p-3 d-flex flex-column border border-3 border-info rounded-4" style="top: 125px">
+        <div class="position-sticky p-3 d-flex flex-column border border-3 border-info rounded-4" style="top:20px">
             <strong class="fs-5 mb-2">Ссылки на другие статьи</strong>
             {% for topicname, topicLink in topicNamesLinks.items %}
                 {% if topicname == topicName %}
@@ -29,7 +29,9 @@
                     <p>{{text}}</p>
                 {% endautoescape %}
             {% endfor %}
-            <p class="text-dark my-3 fs-4 bg-info-subtle p-3 rounded-4">Остались вопросы? Посмотрите <a href="{{presentation}}" class="link-dark">презентацию</a> и все встанет на свои места!</p>
+            {% if presentation != '' %}
+                <p class="text-dark my-3 fs-4 bg-info-subtle p-3 rounded-4">Остались вопросы? Посмотрите <a href="{{presentation}}" target="_blank" class="link-dark">презентацию</a> и все встанет на свои места!</p>
+            {% endif %}
             <h2 class="mt-5">Тест</h2>
             <form method="post" class="d-flex flex-column">
                 {% csrf_token %}

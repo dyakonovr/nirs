@@ -10,7 +10,6 @@
             rel="stylesheet"
             integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
             crossorigin="anonymous">
-        <script src="{% static 'js/main.js' %}" defer></script>
         <title>{% block title %}{% endblock title %}</title>
 
         <!-- favicon -->
@@ -23,17 +22,23 @@
         <meta name="theme-color" content="#ffffff">
     </head>
     <body class="bg-white d-flex flex-column" style="min-height: 100%">
-            <header class="py-4 position-fixed top-0 bg-white" style="left: 0; width: 100%; padding: 0 0 0 calc((100vw - 1320px + 20px) / 2); transition: background-color 0.15s ease-in-out" id="header"> 
-                 <div class="d-flex align-items-center" style="max-width: 1296px;">
+            <header class="py-4 bg-white" id="header"> 
+                 <div class="d-flex align-items-center container">
                     <a href="{% url 'mainPage' %}" class="text-decoration-none link-info fs-2" id="h-logo">HisWay</a>
-                    <a href="{% url 'mainPage' %}" class="ms-auto text-decoration-none link-primary" id="h-link">Главная</a>
-                    <a href="{% url 'profile' %}" class="ms-3 text-decoration-none link-primary" id="h-link">Профиль</a>
-                    <a href="{% url 'dir' %}" class="ms-3 text-decoration-none link-primary" id="h-link">Справочник</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'mainPage' %}" class="ms-auto text-decoration-none link-primary" id="h-link">Главная</a>
+                        <a href="{% url 'profile' %}" class="ms-3 text-decoration-none link-primary" id="h-link">Личный кабинет</a>
+                        <a href="{% url 'dir' %}" class="ms-3 text-decoration-none link-primary" id="h-link">Справочник</a>
+                        <a href="{% url 'about' %}" class="ms-3 text-decoration-none link-primary" id="h-link">О платформе</a>
+                        <a href="{% url 'logout' %}" class="ms-3 text-decoration-none link-primary" id="h-link">Выйти</a>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="ms-3 text-decoration-none link-primary ms-auto" id="h-link">Войти</a>
+                        <a href="{% url 'signUp' %}" class="ms-3 text-decoration-none link-primary" id="h-link">Зарегистрироваться</a>      
+                    {% endif %}
                  </div>
             </header>
-            <main style="margin: 100px 0 0; flex: 1 1 auto;">
+            <main style="flex: 1 1 auto;">
                 <div class="container">
-                    <h1 class="mb-2">{% block header %}{% endblock header %}</h1>
                     <div>
                         {% block content %}
                         {% endblock content %}
@@ -48,8 +53,7 @@
                             <p class="my-0 ms-auto">Ссылка на проект по экономике, разработанный нашей командой: <a class="link-primary" href="#">link</a>
                             </p>
                         </div>
-                        <p class="my-2">Проект разработан Дьяконовым Р.Р., Вражкиным С.А., Радаевым А.В. Вся информация взята из открытых источников, все права защищены,
-                            &copy; 2023 г.</p>
+                        <p class="my-2">Вся информация взята из открытых источников, все права защищены, &copy; 2023 г.</p>
                         <div class="d-flex align-items-center">Наши контакты: <ul></ul></div>
                     </div>
                 </div>

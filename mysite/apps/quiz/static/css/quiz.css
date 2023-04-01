@@ -326,10 +326,9 @@ body {
 
 .window__input {
   border: 2px solid #0dcbf0;
-  border: 2px solid var(--color-main);
   border-radius: 5px;
   font-size: 17px;
-  height: 37px;
+  height: 51.5px;
   margin: 20px 0 0;
   outline: none;
   padding: 6px 205px 5px 5px;

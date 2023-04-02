@@ -1,0 +1,22 @@
+.term:target {
+  color: #0077ff;
+}
+
+.notification {
+  position: fixed;
+  left: 50%;
+  top: 20px;
+  z-index: 7;
+  border-radius: 15px;
+  padding: 10px 20px;
+  font-size: 25px;
+  text-align: center;
+  color: #fff;
+  background-color: #0dcaf0;
+  transform: translate(-50%, -150%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.notification--active {
+  transform: translate(-50%, 0);
+}

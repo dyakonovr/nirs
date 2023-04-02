@@ -6,7 +6,7 @@
 {% for topic, terms in topicDict.items %}
     <h2 class="fs-3 mb-3 mt-5 ">{{topic}}</h2>
         {% for term in terms %}
-            <p class="mb-2 mt-0 fs-5"><span class="fw-bold" id="{{term.id}}">{{term.term}}</span>{{term.definition}}</p>
+            <p class="mb-2 mt-0 fs-5"><span class="fw-bold term" id="{{term.id}}">{{term.term}}</span>{{term.definition}}</p>
         {% endfor %}
 {% endfor %}
 {% endblock content %}

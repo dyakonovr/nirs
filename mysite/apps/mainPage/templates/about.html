@@ -1,40 +1,27 @@
 {% extends 'header.html' %}
 {% block title %}О платформе{% endblock title %}
 {% block content %}
+{% load static %}
 <div>
-    <h1>Приветствуем вас на HisWay! </h1>
-    <p>
-    HisWay&nbsp;&mdash; это образовательная платформа по&nbsp;династии Романовых, разработанная студентами 
-    УлГТУ Факультета информационных систем и&nbsp;технологий в&nbsp;рамках ежегодной недели науки. 
-    Здесь вы&nbsp;можете узнать про одну из&nbsp;величайших династий, правившей Россией на&nbsp;протяжении 
-    300&nbsp;лет.
+    <h1>Приветствуем вас на&nbsp;HisWay! </h1>
+    <p class="fs-5 mt-3 mb-2">
+        <span class="text-info">HisWay</span>&nbsp;&mdash; это <span class="text-info">образовательная платформа</span> по&nbsp;династии Романовых, разработанная студентами УлГТУ
+        Факультета информационных систем и&nbsp;технологий в&nbsp;рамках ежегодной недели науки. Здесь <span class="text-info">Вы&nbsp;можете
+        узнать</span> про одну из&nbsp;<span class="text-info">величайших династий</span>, правившей Россией на&nbsp;протяжении <span class="text-info">300&nbsp;лет</span>.
     </p>
-    <p>
-        Целью нашего проекта является помощь заинтересованным в истории России людям.
-    </p>
-    <h2>Попав на наш сайт, перед вами открываются такие возможности:</h2>
-    <ul>
-        <li>
-            Изучить статью по каждому из правителей династии Романовых.
-        </li>
-        <li>
-            Пройти тест в конце каждой статьи, закрепив свои знания по ней.
-        </li>
-        <li>
-            Вспомнить ключевые даты, связанные с этой династией.
-        </li>
-        <li>Узнать новые термины, которые могут ввести вас в ступор</li>
-        <li>Пройти итоговый тест для закрепления изученного материала </li>
-        <li>Отслеживать результаты своих тестов в личном кабинете</li>
+    <p class="fs-5"><span class="text-info">Целью</span> нашего проекта является <span class="text-info">помощь заинтересованным в&nbsp;истории России</span> людям.</p>
+    <h2 class="fs-2">Попав на&nbsp;наш сайт, перед Вами открываются такие <span class="text-info">возможности</span>:</h2>
+    <ul style="list-style: none; padding: 0;">
+        <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Изучить статью по&nbsp;каждому из&nbsp;правителей династии Романовых.</li>
+        <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Посмотреть обучающий видеоролик в&nbsp;каждой теме.</li>
+        <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Пройти тест в&nbsp;конце каждой статьи, закрепив свои знания по&nbsp;ней.</li>
+        <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Вспомнить ключевые даты, связанные с&nbsp;этой династией.</li>
+        <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Узнать новые термины, которые могут ввести вас в&nbsp;ступор</li>
+        <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Пройти итоговый тест для закрепления изученного материала </li>
+        <li class="fs-5"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Отслеживать результаты своих тестов в&nbsp;личном кабинете</li>
     </ul>
-    <p>
-        Вся информация на нашей платформе представлена в понятной форме и с приятным дизайном.
-    </p>
-    <p>
-        Мы надеемся, что наш проект сделает процесс вашего обучения комфортным и интересным.
-    </p>
-    <p>
-        Приятного обучения =)
-    </p>
+    <p class="fs-5 mb-4 mt-0">Вся <span class="text-info">информация</span> на&nbsp;нашей платформе представлена <span class="text-info">в&nbsp;понятной форме</span> и&nbsp;<span class="text-info">с&nbsp;приятным дизайном.</span></p>
+    <p class="fs-5 mb-1 mt-0">Мы&nbsp;верим, что <span class="text-info">наш проект</span> сделает процесс вашего обучения <span class="text-info">комфортным и&nbsp;интересным.</span></p>
+    <p class="fs-5 mt-0 mb-4">Приятного обучения <span><img style="display: inline-block; width: 20px; height: 20px;" src="{% static 'img/smile.svg' %}" alt=""></span></p>
 </div>
 {% endblock content %}

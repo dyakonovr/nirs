@@ -60,7 +60,7 @@ def article(request):
         for term in dict:
             if term != '':
                 textRdy = textRdy.replace(
-                    "%", rf'<a href="directory#{term.id}" id="{term.id}">{term.id}<a/>', 1)
+                    "%", rf'<a href="directory#{term.id}" id="{term.id}" class="text-decoration-none"><sup>[{term.id}]</sup></a>', 1)
         text = textRdy.split('\n')
 
         # Получение всех вопросов + вариантов ответов для данной темы

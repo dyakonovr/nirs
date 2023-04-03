@@ -5,6 +5,8 @@ from apps.articles.models import Topic
 def dict(request):
     topicDict = {}
     for topic in Topic.objects.all():
+        if topic.id == 23:
+            continue
         topicDict[topic.topic] = (Dictionary.objects.filter(topic=topic.id), Dates.objects.filter(topic=topic.id))
     content = {
         'topicDict': topicDict,

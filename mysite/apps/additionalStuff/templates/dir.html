@@ -3,17 +3,10 @@
 {% load replace %}
 {% block content %}
 <h1 class="mb-3">Справочник</h1>
-<<<<<<< HEAD
-{% for topic, terms in topicDict.items %}
-    <h2 class="fs-3 mb-3 mt-5 ">{{topic}}</h2>
-        {% for term in terms %}
-            <p class="mb-2 mt-0 fs-5"><span class="fw-bold term" id="{{term.id}}">{{term.term}}</span>{{term.definition}}</p>
-=======
 {% for topic, info in topicDict.items %}
     <h2 class="fs-3 mb-3 mt-5 ">Тема {{forloop.counter}}. {{topic}}</h2>
         {% for term in info.0 %}
             <p class="mb-2 mt-0 fs-5"><span class="fw-bold" id="{{term.id}}">{{term.term}}</span>{{term.definition}}</p>
->>>>>>> bc16bbb0036523f3b8fca382f4ff8dae97defae8
         {% endfor %}
         {% for date in info.1 %}
             <p class="mb-2 mt-0 fs-5"><span class="fw-bold" id="{{date.id}}">{{date.date}}</span>{{date.description}}</p>

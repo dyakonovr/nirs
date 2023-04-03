@@ -7,6 +7,18 @@ from apps.userProfile.models import UserScores
 from apps.additionalStuff.models import Dictionary
 
 
+
+# Форматирование статьи: 
+# ### - интересный блок
+# ** - h2 тег, подтема
+# *** - h3 тег, подтема подтемы
+# ^^ - фото правителя
+# $ - фото в тексте
+# @ - видео
+# % - ссылка
+
+
+
 @login_required
 def article(request):
     topicId = request.GET.get('topic')
@@ -42,6 +54,7 @@ def article(request):
 
         if request.session['onResultPage'] == True:
             request.session['onResultPage'] = False
+
         # Вставка в текст фото, видео, ссылок
         textRdy = TopicMaterials.objects.get(topic=topicId).text
         for photo in mainPhotos:
@@ -56,13 +69,23 @@ def article(request):
             if movie != '':
                 textRdy = textRdy.replace(
                     "@", rf'<iframe src="{ movie }" title="YouTube video player" class="d-flex mx-auto my-3" style="width: 864px; height: 500px" frameborder="0"allow="accelerometer; autoplay; clipboard-write; encrypted-media;gyroscope; picture-in-picture; web-share"allowfullscreen></iframe>', 1)
-        dict = Dictionary.objects.filter(topic=topicId)
+        dict = Dictionary.objects.filter(topic=topicId).order_by("order")
         for term in dict:
             if term != '':
                 textRdy = textRdy.replace(
                     "%", rf'<a href="directory#{term.id}" id="{term.id}" class="text-decoration-none"><sup>[{term.id}]</sup></a>', 1)
+                
         text = textRdy.split('\n')
 
+        # Форматирование текста
+        for i in range(len(text)):
+            if '**' in text[i]:
+                text[i] = text[i].replace('**','<h2 class="fs-3 fw-500 mt-4">',1).replace('**','</h2>',1)
+            if "***" in text[i]:
+                text[i] = text[i].replace('***','<h3 class="fs-3 fw-500 mt-4">',1).replace('***','</h3>',1)
+            if "###" in text[i]:
+                text[i] = text[i].replace('###','<div class="bg-info-subtle d-flex align-items-center p-3 rounded-4 my-4"><p class="text-black mb-0 fs-4">',1).replace('###','</p></div>',1)
+        
         # Получение всех вопросов + вариантов ответов для данной темы
         questions = [
             question for question in Question.objects.filter(topic=topicId)]
@@ -114,7 +137,7 @@ def article(request):
         content = {
             'topicName': topicName,
             'test': questionChoices,
-            'textRdy': text,
+            'text': text,
             'movies': movies,
             'topicNamesLinks': topicNamesLinks,
             'presentation': presentation,

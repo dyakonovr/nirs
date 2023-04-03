@@ -24,9 +24,13 @@
     <div class="col-8 ms-auto">
         {% if testFlag == False %}
             <h1>{{ topicName }}</h1>
-            {% for text in textRdy %}
+            {% for piece in text %}
                 {% autoescape off %}
-                    <p>{{text}}</p>
+                    {% if 'div' in piece or 'h3' in piece or 'src' in piece %}
+                        {{piece}}
+                    {% else %}
+                        <p>{{piece}}</p>
+                    {% endif %}
                 {% endautoescape %}
             {% endfor %}
             {% if presentation != '' %}

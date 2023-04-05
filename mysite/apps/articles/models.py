@@ -33,6 +33,7 @@ class TopicMaterials(models.Model):
     videos = models.URLField(default='')
     presentation = models.TextField()
     photos = models.URLField(default='')
+    personInfo = models.TextField(default='')
 
     def __str__(self):
         return self.topic

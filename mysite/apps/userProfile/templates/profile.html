@@ -74,7 +74,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" method="post">
+                    <form action="{% url 'profile' %}" method="post" id="change_password">
                         {% csrf_token %}
                         {% for field in form %}
                             {{field}}
@@ -89,4 +89,5 @@
     </div>
 </div>
 <script src="{% static 'js/tabs.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
 {% endblock content %}

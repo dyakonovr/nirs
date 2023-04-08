@@ -18,16 +18,13 @@ def is_ajax(request):
 def profile(request):
 
     # Получение данных юзера
-    current_user = request.user
-    username = current_user.username
-    email = current_user.email
-    phoneNumber = current_user.phoneNumber
+    currentUser = request.user
 
     # Получение результатов
     try:
-        userScores = UserScores.objects.get(user=current_user).__dict__
+        userScores = UserScores.objects.get(user=currentUser).__dict__
     except:
-        userScores = UserScores.objects.create(user=current_user).__dict__
+        userScores = UserScores.objects.create(user=currentUser).__dict__
     del userScores['_state'], userScores['user_id']
 
     scores = list(userScores.copy().values())
@@ -45,7 +42,7 @@ def profile(request):
             oldPassword = changePasswordForm.cleaned_data['oldPassword']
             newPassword = changePasswordForm.cleaned_data['newPassword']
             passwordConfirm = changePasswordForm.cleaned_data['passwordConfirm']
-            user = User.objects.get(username=username)
+            user = User.objects.get(username=currentUser.username)
             user.set_password(newPassword)
             user.save()
             update_session_auth_hash(request, user)
@@ -63,9 +60,7 @@ def profile(request):
     addGroupForm = AddGroupForm()
 
     content = {
-        'username': username,
-        'email': email,
-        'phoneNumber': phoneNumber,
+        'currentUser': currentUser,
         'scores': scoresData,
         'changePasswordForm': changePasswordForm,
         'groups': groups,

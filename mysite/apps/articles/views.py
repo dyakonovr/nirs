@@ -24,14 +24,13 @@ def article(request):
     topicId = request.GET.get('topic')
 
     if Topic.objects.filter(id=topicId).exists():
-
+        currentTopic = TopicMaterials.objects.get(topic=topicId)
         # Основые переменные, которые передаются на страницу
-        allPhotos = TopicMaterials.objects.get(
-            topic=topicId).photos.split('\n')
+        allPhotos = currentTopic.photos.split('\n')
         try:
-            movies = TopicMaterials.objects.get(topic=topicId).videos.split(',')
-            presentation = TopicMaterials.objects.get(topic=topicId).presentation
-            mainPhotos = TopicMaterials.objects.get(topic=topicId).mainPhoto.split(',')
+            movies = currentTopic.videos.split(',')
+            presentation = currentTopic.presentation
+            mainPhotos = currentTopic.mainPhoto.split(',')
         except:
             movies = []
             presentation = ''
@@ -56,11 +55,11 @@ def article(request):
             request.session['onResultPage'] = False
 
         # Вставка в текст фото, видео, ссылок
-        info = TopicMaterials.objects.get(topic=topicId).personInfo.split(';')
+        info = currentTopic.personInfo.split(';')
         rdyInfo = []
         for item in info:
             rdyInfo.append('<p>' + item + '</p>')
-        textRdy = TopicMaterials.objects.get(topic=topicId).text
+        textRdy = currentTopic.text
         counter = 0
         for photo in mainPhotos:
             if photo != '':

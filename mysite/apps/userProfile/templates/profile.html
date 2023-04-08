@@ -20,9 +20,10 @@
         <div class="tabs__content tabs__content--active" data-tabs-target="data">
             <div class="content d-flex flex-column">
                 <div class="profile d-flex flex-column">
-                    <p class="fs-5 mb-1 mt-0">Имя пользователя: <span class="fw-semibold">{{ username }}</span></p>
-                    <p class="fs-5 mb-1 mt-0">Электронная почта: <span class="fw-semibold">{{ email }}</span></p>
-                    <p class="fs-5 mb-2 mt-0">Номер телефона: <span class="fw-semibold">{{ phoneNumber }}</span></p>
+                    <p class="fs-5 mb-1 mt-0">Имя пользователя: <span class="fw-semibold">{{ currentUser.username }}</span></p>
+                    <p class="fs-5 mb-1 mt-0">Электронная почта: <span class="fw-semibold">{{ currentUser.email }}</span></p>
+                    <p class="fs-5 mb-2 mt-0">Номер телефона: <span class="fw-semibold">{{ currentUser.phoneNumber }}</span></p>
+                    <span class="visually-hidden">{{currentUser.id}}</span>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-warning" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">Изменить
@@ -99,17 +100,8 @@
                 <div class="modal-body">
                     <form action="{% url 'profile' %}" method="post" id="change_password">
                         {% csrf_token %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                <span class="text-success">{{message}}</span>
-                            {% endfor %}
-                        {% endif %}
-                        {% csrf_token %}
                         {% for field in changePasswordForm %}
                             {{field}}
-                        {% endfor %}
-                        {% for error in form.errors %}
-                            {{error}}
                         {% endfor %}
                         <div class="modal-footer px-0 border-top-0">
                             <button type="submit" id="form-button" class="btn btn-primary d-flex me-auto ms-0">Сохранить пароль</button>

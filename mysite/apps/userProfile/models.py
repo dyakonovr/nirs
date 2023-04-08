@@ -24,8 +24,8 @@ class UserScores(models.Model):
 
 
 class StudentsGroup(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    group = models.CharField(max_length=255, unique=True, error_messages={'unique':'Данное имя группы уже используется'})
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='group')
+    group = models.CharField(max_length=255)
     def __str__(self):
         return self.group
     

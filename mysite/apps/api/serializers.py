@@ -4,15 +4,14 @@ from apps.authentication.models import User
 
 
 class GroupSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = StudentsGroup
-        fields = ('user_id', 'group')
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
-    group = GroupSerializer()
+    group = GroupSerializer(many=True, read_only=True)
 
     class Meta:
         model = User
-        fields = ('user_id', 'username', 'group')
+        fields = ('id', 'username', 'group')

@@ -74,7 +74,7 @@
                         </form>
                     {% else %}
                         {% for group in groups %}
-                            <span>{{forloop.counter}}. {{group.group}}</span>
+                            <span data-group="{{group.group}}">{{forloop.counter}}. {{group.group}}</span>
                         {% endfor %}
                         <span>Добавить группу</span>
                         <form action="" method="post" class="form-control">

@@ -3,6 +3,7 @@
 
 {% block title %}Авторизация{% endblock title %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/logIn.css' %}">
 <form action="" method="post" class="form col-3 p-5 bg-white rounded-4">
     <h1 class="text-center mb-4">Авторизация</h1>
     {% csrf_token %}

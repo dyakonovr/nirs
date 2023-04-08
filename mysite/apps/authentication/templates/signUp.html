@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}Регистрация{% endblock title %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/signUp.css' %}">
 <form action="" method="post" class="form col-3 p-5 bg-white rounded-4">
     <h1 class="text-center mb-4">Регистрация</h1>
     {% csrf_token %}

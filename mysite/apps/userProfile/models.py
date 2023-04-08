@@ -21,3 +21,14 @@ class UserScores(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class StudentsGroup(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.CharField(max_length=255, unique=True, error_messages={'unique':'Данное имя группы уже используется'})
+    def __str__(self):
+        return self.group
+    
+class StudentGroupUser(models.Model):
+    user = models.TextField()
+    studentGroups = models.ManyToManyField(StudentsGroup)

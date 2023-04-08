@@ -73,5 +73,5 @@ class SignUpForm(models.ModelForm):
         passwordConfirm = self.cleaned_data.get('passwordConfirm')
         if password and passwordConfirm:
             if password != passwordConfirm:
-                self.add_error(None, 'Пароль не совпадают')
+                self.add_error(None, 'Пароли не совпадают')
         return cleaned_data

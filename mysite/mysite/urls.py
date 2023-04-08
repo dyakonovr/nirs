@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('apps.mainPage.urls')),
     path('', include('apps.userProfile.urls')),
     path('', include('apps.additionalStuff.urls')),
+    path('api/',include('apps.api.urls')),
 ]
 
 if settings.DEBUG:

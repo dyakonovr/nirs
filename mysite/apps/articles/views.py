@@ -56,11 +56,22 @@ def article(request):
             request.session['onResultPage'] = False
 
         # Вставка в текст фото, видео, ссылок
+        info = TopicMaterials.objects.get(topic=topicId).personInfo.split(';')
+        rdyInfo = []
+        for item in info:
+            rdyInfo.append('<p>' + item + '</p>')
         textRdy = TopicMaterials.objects.get(topic=topicId).text
+        counter = 0
         for photo in mainPhotos:
             if photo != '':
                 textRdy = textRdy.replace(
-                    "^^", rf'<img src="{photo}" width="300" height="400" alt="" class="float-end ms-3 d-block">', 1)
+                    "^^", rf'''
+                    <div class="float-end ms-3 d-block border-2">
+                        <img src="{photo}" width="300" height="400" alt="">
+                        {rdyInfo[counter]}
+                    </div>
+                    ''', 1)
+            counter += 1
         for photo in allPhotos:
             if photo != '':
                 textRdy = textRdy.replace(

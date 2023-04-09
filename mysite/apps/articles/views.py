@@ -55,8 +55,20 @@ def article(request):
         # Вставка в текст фото, видео, ссылок
         info = currentTopic.personInfo.split(';')
         rdyInfo = []
+        info = currentTopic.personInfo.split(';')
+        rdyInfo = []
+        for i in range(len(info)):
+            info[i] = info[i].split('\n')
+        # Rus: почему то появляетс пустой тег <p>
         for item in info:
-            rdyInfo.append(r'<p class="mt-1">' + item + r'</p>')
+            lst = []
+            for x in range(len(item)):
+                if x == 0:
+                    lst.append(
+                        '<p class="mt-1 mb-3 text-center border-bottom border-2 border-info">' + item[x] + '</p>')
+                else:
+                    lst.append('<p class="mt-1 mb-0 px-1">' + item[x] + '</p>')
+            rdyInfo.append(lst)
         # Rus: для span'оу поставить класс fw-bold/fw-semibold
         textRdy = currentTopic.text
         counter = 0
@@ -64,9 +76,9 @@ def article(request):
             if photo != '':
                 textRdy = textRdy.replace(
                     "^^", rf'''
-                    <div class="float-end ms-3 d-block border-2 border-info" style="max-width: 300px;">
-                        <img src="{photo}" width="300" height="400" alt="" class="mb-2">
-                        {rdyInfo[counter]}
+                    <div class="d-flex flex-column float-end ms-3 d-block border border-3 border-info rounded-4" style="max-width: 300px">
+                        <img src="{photo}" width="270" height="400" alt="" class="align-self-center mt-2">
+                        {"".join(rdyInfo[counter])}
                     </div>
                     ''', 1)
             counter += 1

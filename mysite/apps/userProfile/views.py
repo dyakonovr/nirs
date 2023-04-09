@@ -4,7 +4,11 @@ from apps.authentication.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import ChangePasswordForm
 from django.contrib import messages
-from django.contrib.auth import login as auth_login ,authenticate
+from django.contrib.auth import login as auth_login ,authenticate, update_session_auth_hash
+from django.http import JsonResponse
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 @login_required
 def profile(request):
@@ -53,28 +57,26 @@ def profile(request):
         if username == username_:
             currentPlaceHard = count
 
-    if request.method == 'POST':
-        form = ChangePasswordForm(request.POST)
-        if form.is_valid():
-            newPassword = form.cleaned_data
-            if newPassword['newPassword'] == newPassword['passwordConfirm']:
-                user = User.objects.get(username=username)
-                if user.check_password(newPassword['oldPassword']):
-                    if newPassword['newPassword'] != newPassword['oldPassword']:
-                        user.set_password(newPassword['newPassword'])
-                        user.save()
-                        auth_login(request, authenticate(username=username,password=newPassword['newPassword']))
-                        messages.success(request, 'Пароль успешно изменён!')
-                        return redirect('profile')
-                    else:
-                        messages.error(request, 'Новый пароль не может совпадать со старым!')
-                else:
-                    messages.error(request, 'Неверный старый пароль!')
-            else:
-                messages.error(request,'Пароли не совпадают!')
-        return redirect('profile')
-    else:
-        form = ChangePasswordForm()
+    # Смена пароля
+    changePasswordForm = ChangePasswordForm(request.user)
+    if is_ajax(request=request):
+        changePasswordForm = ChangePasswordForm(request.user,request.POST)
+        if changePasswordForm.is_valid():
+            oldPassword = changePasswordForm.cleaned_data['oldPassword']
+            newPassword = changePasswordForm.cleaned_data['newPassword']
+            passwordConfirm = changePasswordForm.cleaned_data['passwordConfirm']
+            user = User.objects.get(username=currentUser.username)
+            user.set_password(newPassword)
+            user.save()
+            update_session_auth_hash(request, user)
+            data = {
+                'oldPassword': oldPassword,
+                'newPassword': newPassword,
+                'passwordConfirm': passwordConfirm,
+            }
+            return JsonResponse({'success': 'Пароль успешно изменён'})
+        else:
+            return JsonResponse({'errors': changePasswordForm.errors})
 
     content = {
         'username': username,
@@ -86,7 +88,7 @@ def profile(request):
         'currentPlaceEasy': currentPlaceEasy,
         'currentPlaceMedium': currentPlaceMedium,
         'currentPlaceHard': currentPlaceHard,
-        'form': form,
+        'form': changePasswordForm,
     }
 
     return render(request, 'profile.html', context=content)

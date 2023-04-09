@@ -1,0 +1,34 @@
+{% extends 'header.html' %}
+{% block title %}О нас{% endblock title %}
+{% block content %}
+{% load static %}
+<div class="mt-5 col-7 d-flex flex-column mx-auto">
+    <div class="bg-white rounded-5 ">
+        <h1>Приветствуем вас на&nbsp;EQuiz! </h1>
+        <p class="fs-5 mt-3 mb-2">
+            <span class="text-info">EQuiz</span>&nbsp;&mdash; это сайт, разработанный студентами УлГТУ Факультета информационных 
+            систем и&nbsp;технологий в&nbsp;рамках ежегодной недели науки. Здесь вы&nbsp;можете проверить 
+            свои знания по&nbsp;экономике, пройдя тест, и&nbsp;поиграть в&nbsp;интересную игру. Игра представляет собой несколько 
+            вопросов, среди которых: верю не&nbsp;верю, угадай личность, ребусы и&nbsp;другие..
+        </p>
+        <p class="fs-5"><span class="text-info">Целью</span> нашего проекта является сделать обучение более интересным, весёлым и продуктивным.</p>
+        <h2 class="fs-2">Здесь вы&nbsp;можете:</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Поиграть в&nbsp;интересный Квиз, и&nbsp;узнать увлекательные факты 
+                Пройти тесты разных уровней сложности, проверив свои знания по&nbsp;экономике.</li>
+            <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Посмотреть результаты ваших тестов в&nbsp;профиле.</li>
+            <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Узнать свое место в&nbsp;таблице лидеров.</li>
+            <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Вспомнить ключевые даты, связанные с&nbsp;этой династией.</li>
+            <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Узнать новые термины, которые могут ввести вас в&nbsp;ступор</li>
+            <li class="fs-5 mb-1"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Пройти итоговый тест для закрепления изученного материала </li>
+            <li class="fs-5"><span class="fs-5 fw-bold me-2 text-info">&mdash;</span>Отслеживать результаты своих тестов в&nbsp;личном кабинете</li>
+        </ul>
+        <p>Мы&nbsp;надеемся, что игра и&nbsp;тесты вам понравятся, вы&nbsp;получите хорошие эмоции и&nbsp;узнаете что-нибудь новое.</p>
+        <p>Приятной игры <img style="display: inline-block; width: 20px; height: 20px;" src="{% static 'img/smile.svg' %}" alt=""></p>
+    </div>
+</div>
+
+{% endblock content %}
+for item in info:
+    lst = item.split(':')
+    rdyInfo.append('<p>' + <span class=""> + lst[0] + </span> + lst[1] + '</p>')

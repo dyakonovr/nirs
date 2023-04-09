@@ -2,54 +2,57 @@
 {% block title %}Профиль{% endblock title %}
 {% load static %}
 {% block content %}
-<div class="d-flex flex-column bg-white p-5 rounded-4">
-    {% if messages %}
-        {% for message in messages %}
-            <!-- ошибка при смене -->
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}<span>{{message}}</span>{% endif %} 
-            <!-- успешная смена -->
-            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}<span>{{message}}</span>{% endif %}
-        {% endfor %}
-    {% endif %}
-    <p class="mb-1 fs-3">Имя пользователя: <span class="fw-semibold">{{ username}}</span></p>
-    <p class="mb-1 fs-3">Электронная почта: <span class="fw-semibold">{{ email}}</span></p>
-    <p class="mb-1 fs-3">Номер телефона: <span class="fw-semibold">{{phoneNumber }}</span></p>
-    <p class="mb-1 fs-3">Ваши очки: <span class="fw-semibold"></span></p>
-    <span>Easy : {{userScoreEasy}}</span>
-    <span>Medium: {{userScoreMedium}}</span>
-    <span>Hard: {{userScoreHard}}</span>
-    <p class="mb-3 fs-3">Ваши места в топе: <span class="fw-semibold"></span></p>
-    <span>Easy : {{currentPlaceEasy}}</span>
-    <span>Medium: {{currentPlaceMedium}}</span>
-    <span>Hard: {{currentPlaceHard}}</span>
-    <!-- Модалку для смены пароля сделай, форму ниже -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header border-bottom-0">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Сменить пароль</h1>
-                </div>
-                <div class="modal-body">
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        {% for field in form %}
-                        {{ field }}
-                        {% endfor %}
-                        <button type="submit">Изменить пароль</button>
-                    </form>
-                </div>
-                <div class="modal-footer border-top-0">
-                    <button type="button" class="btn btn-primary">Save changes</button>
+<div class="mt-5 col-7 d-flex flex-column mx-auto">
+    <div class="d-flex flex-column bg-white p-5 rounded-4">
+        {% if messages %}
+            {% for message in messages %}
+                <!-- ошибка при смене -->
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}<span>{{message}}</span>{% endif %} 
+                <!-- успешная смена -->
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}<span>{{message}}</span>{% endif %}
+            {% endfor %}
+        {% endif %}
+        <p class="mb-1 fs-3">Имя пользователя: <span class="fw-semibold">{{ username}}</span></p>
+        <p class="mb-1 fs-3">Электронная почта: <span class="fw-semibold">{{ email}}</span></p>
+        <p class="mb-1 fs-3">Номер телефона: <span class="fw-semibold">{{phoneNumber }}</span></p>
+        <p class="mb-1 fs-3">Ваши очки: <span class="fw-semibold"></span></p>
+        <span>Easy : {{userScoreEasy}}</span>
+        <span>Medium: {{userScoreMedium}}</span>
+        <span>Hard: {{userScoreHard}}</span>
+        <p class="mb-3 fs-3">Ваши места в топе: <span class="fw-semibold"></span></p>
+        <span>Easy : {{currentPlaceEasy}}</span>
+        <span>Medium: {{currentPlaceMedium}}</span>
+        <span>Hard: {{currentPlaceHard}}</span>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header border-bottom-0">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Изменить пароль</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            {{ field }}
+                            {% endfor %}
+                            <div class="modal-footer border-top-0">
+                                <button type="submit">Сохранить пароль</button>
+                            </div>
+                        </form>
+                    </div>
+                    
                 </div>
             </div>
         </div>
-    </div>
-    <div class="d-flex align-items-center mx-auto mt-3">
-        <button type="button" class="btn btn-warning fs-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Сменить пароль
-        </button>
-        <a href="{% url 'logout' %}" class="btn btn-primary ms-2
-                fs-5">Выйти из аккаунта</a>
+        <div class="d-flex align-items-center mx-auto mt-3">
+            <button type="button" class="btn btn-warning fs-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Сменить пароль
+            </button>
+            <a href="{% url 'logout' %}" class="btn btn-primary ms-2
+                    fs-5">Выйти из аккаунта</a>
+        </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="{% static 'js/main.js' %}"></script>
 {% endblock content %}

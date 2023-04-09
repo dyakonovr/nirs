@@ -23,10 +23,10 @@
         <a href="{% url 'quiz' %}" class="link-light fs-3 text-decoration-none">EQuiz</a>
         <a href="{% url 'profile' %}" class="ms-auto link-light text-decoration-none">Профиль</a>
         <a href="{% url 'top' %}" class="ms-3 link-light text-decoration-none">Топ игроков</a>
+        <a href="{% url 'about' %}" class="ms-3 link-light text-decoration-none">О нас</a>
+        <a href="{% url 'logout' %}" class="ms-3 link-light text-decoration-none">Выйти</a>
     </div>
-    <div class="mt-5 col-7 d-flex flex-column mx-auto">
-        {% block content %}
-        {% endblock content %}
-    </div>
+    {% block content %}
+    {% endblock content %}
 </body>
 </html>

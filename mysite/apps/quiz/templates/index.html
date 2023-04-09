@@ -3,7 +3,6 @@
 {% block title %}Квиз{% endblock title %}
 
 {% block content %}
-    <!-- удали всю ненужную хуйню -->
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#000000" />
@@ -12,6 +11,8 @@
     <link rel="manifest" href="/manifest.json" />
     <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
     <script defer="defer" src="{% static 'js/quiz.js' %}"></script>
-    <div id="root"></div>
+    <div class="mt-5 col-7 d-flex flex-column mx-auto">
+        <div id="root"></div>
+    </div>
     <span id="username" class="visually-hidden">{{username}}</span>
 {% endblock content %}

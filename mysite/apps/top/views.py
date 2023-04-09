@@ -87,3 +87,7 @@ def top(request):
     }
 
     return render(request, 'top.html', context=content)
+
+
+def about(request):
+    return render(request, 'about.html')

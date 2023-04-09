@@ -5,155 +5,156 @@
 {% block content %}
 <link rel="stylesheet" href="{% static "css/styles.css" %}">
 
-
-<div class="p-4 rounded-4 bg-white">
-    <h1 class="text-center mb-4">Лучшие игроки по уровням сложности</h1>
-    <div class="tabs">
-        <ul class="tabs__list w-100">
-            <li class="tabs__item"><button class="tabs__btn
-                    tabs__btn--active bg-info" data-tabs-path="easy">Легкий</button></li>
-            <li class="tabs__item"><button class="tabs__btn"
-                    data-tabs-path="medium">Средний</button></li>
-            <li class="tabs__item"><button class="tabs__btn"
-                    data-tabs-path="hard">Сложный</button></li>
-        </ul>
-        <div class="tabs__content tabs__content--active"
-            data-tabs-target="easy">
-            <div class="content">
-                <table class="table table-hover overflow-auto mh-100">
-                    <!--Easy-->
-                    <thead>
-                        <tr>
-                            <th scope="col" class="col-2">№</th>
-                            <th scope="col" class="col-8">Игрок</th>
-                            <th scope="col" class="col-2">Очки</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if currentPlayerEasyPlace > 10 %}
-                        {% for player, score in topPlayersEasy%}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% endfor %}
-                        <tr class="table-active">
-                            <th scope="row">{{ currentPlayerEasyPlace }}</th>
-                            <td>{{currentUser}}</td>
-                            <td>{{currentPlayerEasyScore}}</td>
-                        </tr>
-                        {% else %}
-                        {% for player, score in topPlayersEasy%}
-                        {% if player == currentUser %}
-                        <tr class="table-active">
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </tbody>
-                </table>
+<div class="mt-5 col-7 d-flex flex-column mx-auto">
+    <div class="p-4 rounded-4 bg-white">
+        <h1 class="text-center mb-4">Лучшие игроки по уровням сложности</h1>
+        <div class="tabs">
+            <ul class="tabs__list w-100">
+                <li class="tabs__item"><button class="tabs__btn
+                        tabs__btn--active bg-info" data-tabs-path="easy">Легкий</button></li>
+                <li class="tabs__item"><button class="tabs__btn"
+                        data-tabs-path="medium">Средний</button></li>
+                <li class="tabs__item"><button class="tabs__btn"
+                        data-tabs-path="hard">Сложный</button></li>
+            </ul>
+            <div class="tabs__content tabs__content--active"
+                data-tabs-target="easy">
+                <div class="content">
+                    <table class="table table-hover overflow-auto mh-100">
+                        <!--Easy-->
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-2">№</th>
+                                <th scope="col" class="col-8">Игрок</th>
+                                <th scope="col" class="col-2">Очки</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if currentPlayerEasyPlace > 10 %}
+                            {% for player, score in topPlayersEasy%}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="table-active">
+                                <th scope="row">{{ currentPlayerEasyPlace }}</th>
+                                <td>{{currentUser}}</td>
+                                <td>{{currentPlayerEasyScore}}</td>
+                            </tr>
+                            {% else %}
+                            {% for player, score in topPlayersEasy%}
+                            {% if player == currentUser %}
+                            <tr class="table-active">
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="tabs__content" data-tabs-target="medium">
-            <div class="content">
-                <table class="table table-hover overflow-auto mh-100">
-                    <!--Medium-->
-                    <thead>
-                        <tr>
-                            <th scope="col" class="col-2">№</th>
-                            <th scope="col" class="col-8">Игрок</th>
-                            <th scope="col" class="col-2">Очки</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if currentPlayerMediumPlace > 10 %}
-                        {% for player, score in topPlayersMedium%}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% endfor %}
-                        <tr class="table-active">
-                            <th scope="row">{{ currentPlayerMediumPlace }}</th>
-                            <td>{{currentUser}}</td>
-                            <td>{{currentPlayerMediumScore}}</td>
-                        </tr>
-                        {% else %}
-                        {% for player, score in topPlayersMedium%}
-                        {% if player == currentUser %}
-                        <tr class="table-active">
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </tbody>
-                </table>
+            <div class="tabs__content" data-tabs-target="medium">
+                <div class="content">
+                    <table class="table table-hover overflow-auto mh-100">
+                        <!--Medium-->
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-2">№</th>
+                                <th scope="col" class="col-8">Игрок</th>
+                                <th scope="col" class="col-2">Очки</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if currentPlayerMediumPlace > 10 %}
+                            {% for player, score in topPlayersMedium%}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="table-active">
+                                <th scope="row">{{ currentPlayerMediumPlace }}</th>
+                                <td>{{currentUser}}</td>
+                                <td>{{currentPlayerMediumScore}}</td>
+                            </tr>
+                            {% else %}
+                            {% for player, score in topPlayersMedium%}
+                            {% if player == currentUser %}
+                            <tr class="table-active">
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="tabs__content" data-tabs-target="hard">
-            <div class="content">
-                <table class="table table-hover overflow-auto mh-100">
-                    <!--Hard-->
-                    <thead>
-                        <tr>
-                            <th scope="col" class="col-1">№</th>
-                            <th scope="col" class="col-8">Игрок</th>
-                            <th scope="col" class="col-3">Очки</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if currentPlayerPlace > 10 %}
-                        {% for player, score in topPlayersHard%}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% endfor %}
-                        <tr class="table-active">
-                            <th scope="row">{{ currentPlayerHardPlace }}</th>
-                            <td>{{currentUser}}</td>
-                            <td>{{currentPlayerHardScore}}</td>
-                        </tr>
-                        {% else %}
-                        {% for player, score in topPlayersHard%}
-                        {% if player == currentUser %}
-                        <tr class="table-active">
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{player}}</td>
-                            <td>{{score}}</td>
-                        </tr>
-                        {% endif %}
-                        {% endfor %}
-                        {% endif %}
-                    </tbody>
-                </table>
+            <div class="tabs__content" data-tabs-target="hard">
+                <div class="content">
+                    <table class="table table-hover overflow-auto mh-100">
+                        <!--Hard-->
+                        <thead>
+                            <tr>
+                                <th scope="col" class="col-2">№</th>
+                                <th scope="col" class="col-8">Игрок</th>
+                                <th scope="col" class="col-2">Очки</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if currentPlayerPlace > 10 %}
+                            {% for player, score in topPlayersHard%}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% endfor %}
+                            <tr class="table-active">
+                                <th scope="row">{{ currentPlayerHardPlace }}</th>
+                                <td>{{currentUser}}</td>
+                                <td>{{currentPlayerHardScore}}</td>
+                            </tr>
+                            {% else %}
+                            {% for player, score in topPlayersHard%}
+                            {% if player == currentUser %}
+                            <tr class="table-active">
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td>{{player}}</td>
+                                <td>{{score}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

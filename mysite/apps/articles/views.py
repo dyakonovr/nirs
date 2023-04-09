@@ -53,9 +53,7 @@ def article(request):
             request.session['onResultPage'] = False
 
         # Вставка в текст фото, видео, ссылок
-        info = currentTopic.personInfo.split(';')
-        rdyInfo = []
-        info = currentTopic.personInfo.split(';')
+        info = currentTopic.personInfo.split(';\n')
         rdyInfo = []
         for i in range(len(info)):
             info[i] = info[i].split('\n')
@@ -65,7 +63,7 @@ def article(request):
             for x in range(len(item)):
                 if x == 0:
                     lst.append(
-                        '<p class="mt-1 mb-3 text-center border-bottom border-2 border-info">' + item[x] + '</p>')
+                        '<p class="mt-1 mb-3 text-center border-bottom border-2 border-info fw-bold">' + item[x] + '</p>')
                 else:
                     lst.append('<p class="mt-1 mb-0 px-1">' + item[x] + '</p>')
             rdyInfo.append(lst)
@@ -77,8 +75,7 @@ def article(request):
                 textRdy = textRdy.replace(
                     "^^", rf'''
                     <div class="d-flex flex-column float-end ms-3 d-block border border-3 border-info rounded-4" style="max-width: 300px">
-                        <img src="{photo}" width="270" height="400" alt="" class="align-self-center mt-2">
-                        {"".join(rdyInfo[counter])}
+                        <img src="{photo}" width="270" height="400" alt="" class="align-self-center mt-2">{"".join(rdyInfo[counter])}
                     </div>
                     ''', 1)
             counter += 1

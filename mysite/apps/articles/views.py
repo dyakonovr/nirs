@@ -7,8 +7,7 @@ from apps.userProfile.models import UserScores
 from apps.additionalStuff.models import Dictionary
 
 
-
-# Форматирование статьи: 
+# Форматирование статьи:
 # ### - интересный блок
 # ** - h2 тег, подтема
 # *** - h3 тег подтема "меньше"
@@ -16,7 +15,6 @@ from apps.additionalStuff.models import Dictionary
 # $ - фото в тексте
 # @ - видео
 # && - ссылка
-
 
 
 @login_required
@@ -58,15 +56,16 @@ def article(request):
         info = currentTopic.personInfo.split(';')
         rdyInfo = []
         for item in info:
-            rdyInfo.append('<p>' + item + '</p>')
+            rdyInfo.append(r'<p class="mt-1">' + item + r'</p>')
+        # Rus: для span'оу поставить класс fw-bold/fw-semibold
         textRdy = currentTopic.text
         counter = 0
         for photo in mainPhotos:
             if photo != '':
                 textRdy = textRdy.replace(
                     "^^", rf'''
-                    <div class="float-end ms-3 d-block border-2">
-                        <img src="{photo}" width="300" height="400" alt="">
+                    <div class="float-end ms-3 d-block border-2 border-info" style="max-width: 300px;">
+                        <img src="{photo}" width="300" height="400" alt="" class="mb-2">
                         {rdyInfo[counter]}
                     </div>
                     ''', 1)
@@ -84,18 +83,21 @@ def article(request):
             if term != '':
                 textRdy = textRdy.replace(
                     "&&", rf'<a href="directory#{term.id}" id="{term.id}" class="text-decoration-none"><sup>[{term.id}]</sup></a>', 1)
-                
+
         text = textRdy.split('\n')
 
         # Форматирование текста
         for i in range(len(text)):
             if "***" in text[i]:
-                text[i] = text[i].replace('***','<h3 class="fs-3 fw-500 mt-4">',1).replace('***','</h3>',1)
+                text[i] = text[i].replace(
+                    '***', '<h3 class="fs-3 fw-500 mt-4">', 1).replace('***', '</h3>', 1)
             if '**' in text[i]:
-                text[i] = text[i].replace('**','<h2 class="fs-3 fw-500 mt-4">',1).replace('**','</h2>',1)
+                text[i] = text[i].replace(
+                    '**', '<h2 class="fs-3 fw-500 mt-4">', 1).replace('**', '</h2>', 1)
             if "###" in text[i]:
-                text[i] = text[i].replace('###','<div class="bg-info-subtle d-flex align-items-center p-3 rounded-4 my-4"><p class="text-black mb-0 fs-4">',1).replace('###','</p></div>',1)
-        
+                text[i] = text[i].replace(
+                    '###', '<div class="bg-info-subtle d-flex align-items-center p-3 rounded-4 my-4"><p class="text-black mb-0 fs-4">', 1).replace('###', '</p></div>', 1)
+
         # Получение всех вопросов + вариантов ответов для данной темы
         questions = [
             question for question in Question.objects.filter(topic=topicId)]
@@ -143,7 +145,7 @@ def article(request):
 
         userTestScore = request.session['userTestScore']
         testFlag = request.session['testFlag']
-        
+
         content = {
             'topicName': topicName,
             'test': questionChoices,

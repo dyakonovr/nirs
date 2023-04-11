@@ -63,9 +63,9 @@ def article(request):
             for x in range(len(item)):
                 if x == 0:
                     lst.append(
-                        '<p class="mt-1 mb-3 text-center border-bottom border-2 border-info fw-bold">' + item[x] + '</p>')
+                        '<p class="mt-1 mb-3 text-center border-bottom border-2 border-info fw-bold fs-5">' + item[x] + '</p>')
                 else:
-                    lst.append('<p class="mt-1 mb-0 px-1">' + item[x] + '</p>')
+                    lst.append('<p class="mb-1 mb-0 px-1">' + item[x] + '</p>')
             rdyInfo.append(lst)
         # Rus: для span'оу поставить класс fw-bold/fw-semibold
         textRdy = currentTopic.text

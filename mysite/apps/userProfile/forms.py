@@ -24,7 +24,8 @@ class ChangePasswordForm(forms.Form):
             'class': 'form-control mb-2',
         }
     ))
-    def __init__(self,user,*args,**kwargs):
+
+    def __init__(self, user, *args, **kwargs):
         self.user = user
         super().__init__(*args, **kwargs)
 
@@ -50,9 +51,10 @@ class AddGroupForm(forms.ModelForm):
         model = StudentsGroup
         fields = ('group',)
         widgets = {
-            'groupName': forms.TextInput(
+            'group': forms.TextInput(
                 attrs={
                     "placeholder": "Название группы",
-                    'class': 'form-control mb-2',
+                    "class": "form-control w-50 ms-2",
+                    "id": "group-input"
                 }
             )}

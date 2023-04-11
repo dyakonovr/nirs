@@ -10,12 +10,12 @@
     <h1 class="mb-4">Профиль</h1>
     <div class="tabs">
         <ul class="tabs__list mb-3 w-100">
-            <li class="tabs__item w-50"><button class="tabs__btn fs-5 tabs__btn--active rounded-start-4"
+            <li class="tabs__item w-50"><button class="tabs__btn fs-6 tabs__btn--active rounded-start-4"
                     data-tabs-path="data">Мои данные</button>
             </li>
-            <li class="tabs__item w-50"><button class="tabs__btn fs-5" data-tabs-path="results">Результаты
+            <li class="tabs__item w-50"><button class="tabs__btn fs-6" data-tabs-path="results">Результаты
                     тестов</button></li>
-            <li class="tabs__item w-50"><button class="tabs__btn fs-5 rounded-end-4" data-tabs-path="students">Мои ученики</button></li>
+            <li class="tabs__item w-50"><button class="tabs__btn fs-6 rounded-end-4" data-tabs-path="students">Мои ученики</button></li>
         </ul>
         <div class="tabs__content tabs__content--active" data-tabs-target="data">
             <div class="content d-flex flex-column">
@@ -23,7 +23,7 @@
                     <p class="fs-5 mb-1 mt-0">Имя пользователя: <span class="fw-semibold">{{ currentUser.username }}</span></p>
                     <p class="fs-5 mb-1 mt-0">Электронная почта: <span class="fw-semibold">{{ currentUser.email }}</span></p>
                     <p class="fs-5 mb-2 mt-0">Номер телефона: <span class="fw-semibold">{{ currentUser.phoneNumber }}</span></p>
-                    <span class="visually-hidden">{{currentUser.id}}</span>
+                    <span class="visually-hidden" data-user-id>{{currentUser.id}}</span>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-warning" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">Изменить
@@ -64,28 +64,45 @@
             <div class="content d-flex flex-column">
                 <div class="d-flex flex-column">
                     {% if groups|length == 0 %}
-                        <span>Вы ещё не создали группы!</span>
-                        <span>Добавить группу</span>
-                        <form action="" method="post" class="form-control">
-                            {% csrf_token %}
-                            {% for field in addGroupForm %}
-                                {{field}}
-                            {% endfor %}
-                            <button type="submit">Добавить пользователя</button>
-                        </form>
+                        <span id="group-empty" class="fs-5">Вы ещё не создали группы!</span>
+                        <ol id="group-list" class="visually-hidden" style="padding-inline-start: 20px;"></ol>
                     {% else %}
-                        {% for group in groups %}
-                            <span data-group="{{group.group}}">{{forloop.counter}}. {{group.group}}</span>
-                        {% endfor %}
-                        <span>Добавить группу</span>
-                        <form action="" method="post" class="form-control">
-                            {% csrf_token %}
-                            {% for field in addGroupForm %}
-                                {{field}}
-                            {% endfor %}
-                            <button type="submit">Добавить пользователя</button>
-                        </form>
+                        <span id="group-empty" class="visually-hidden fs-5">Вы ещё не создали группы!</span>
+                        <div class="d-flex flex-column p-0">
+                            <div class="ex ex-3">
+                                <ul class="accordion__list p-0" id="group-list" style="list-style: none;">
+                                    {% for group in groups %}
+                                        <li class="accordion" data-group="{{group.group}}">
+                                            <div class="d-flex align-items-center accordion__control" aria-expanded="false" onclick="accordionOpen(event)">
+                                                <button class="accordion__btn">
+                                                    <span class="accordion__title">{{group.group}}</span>
+                                                </button>
+                                                <button class="ms-auto btn btn-sm btn-danger" onclick="deleteGroup(event)">Удалить группу</button>
+                                            </div>
+                                            <ol class="accordion__content" aria-hidden="true" id="students-list">
+                                                <span class="fs-5 visually-hidden" id="students-empty">Пока здесь нет студенов...</span>
+                                                <li class="fs-5 mb-2">Ученик 1 <button class="btn btn-sm btn-warning ms-2" style="margin-top: -3px;" id="group-student-delete" onclick="deleteStudent(event)">Удалить</button></li>
+                                                <li class="fs-5 mb-2">Ученик 2 <button class="btn btn-sm btn-warning ms-2" style="margin-top: -3px;" id="group-student-delete" onclick="deleteStudent(event)">Удалить</button></li>
+                                                <li class="fs-5 mb-2">Ученик 3 <button class="btn btn-sm btn-warning ms-2" style="margin-top: -3px;" id="group-student-delete" onclick="deleteStudent(event)">Удалить</button></li>
+                                            </ol>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
                     {% endif %}
+                    <div class="d-flex align-items-center mt-2">
+                        <span class="fw-semibold fs-5">Добавить группу</span>
+                        <form>
+                            {% csrf_token %}
+                            <div class="d-flex align-items-center">
+                                {% for field in addGroupForm %}
+                                    {{field}}
+                                {% endfor %}
+                                <button type="button" class="btn btn-primary ms-2" id="group-btn">Добавить группу</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -113,6 +130,9 @@
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="{% static 'js/tabs.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/addGroups.js' %}"></script>
+<script src="{% static 'js/accordion.js' %}"></script>
 {% endblock content %}

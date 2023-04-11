@@ -3,8 +3,9 @@ const groupList = document.querySelector('#group-list');
 const groupBtn = document.querySelector('#group-btn');
 const groupInput = document.querySelector('#group-input');
 const groupEmpty = document.querySelector('#group-empty');
-const studentsEmpty = document.querySelector('#students-empty');
-const studentsList = document.querySelector('#students-list');
+// const studentsEmpty = document.querySelector('#students-empty');
+// const studentsList = document.querySelector('#students-list');
+const token = getToken();
 
 function getToken() {
   function getCookie(name) {
@@ -32,32 +33,30 @@ document.addEventListener('DOMContentLoaded', function () {
   groupBtn.addEventListener('click', () => {
     const inputValue = groupInput.value;
     if (!document.querySelector(`[data-group="${inputValue}"]`)) {
-      console.log(inputValue, userID);
       axios.post('/api/createGroup/', {
         "user": userID,
         "group": inputValue
       }, {
         headers: {
-          "X-CSRFToken": getToken()
+          "X-CSRFToken": token
         }
       })
-        .then(function () {
+        .then(function (response) {
+          const groupID = response.data.id;
           groupList.innerHTML += `
-            <li class="accordion" data-group="${inputValue}">
-                <div class="d-flex align-items-center accordion__control" aria-expanded="false" onclick="accordionOpen(event)">
-                    <button class="accordion__btn">
-                        <span class="accordion__title">${inputValue}</span>
-                    </button>
-                    <button class="ms-auto btn btn-sm btn-danger" onclick="deleteGroup(event)">Удалить группу</button>
-                </div>
-                <ol class="accordion__content" aria-hidden="true" id="students-list">
-                    <span class="fs-5 visually-hidden" id="students-empty">Пока здесь нет студенов...</span>
-                    <li class="fs-5 mb-2">Ученик 1 <button class="btn btn-sm btn-warning ms-2" style="margin-top: -3px;" id="group-student-delete" onclick="deleteStudent(event)">Удалить</button></li>
-                    <li class="fs-5 mb-2">Ученик 2 <button class="btn btn-sm btn-warning ms-2" style="margin-top: -3px;" id="group-student-delete" onclick="deleteStudent(event)">Удалить</button></li>
-                    <li class="fs-5 mb-2">Ученик 3 <button class="btn btn-sm btn-warning ms-2" style="margin-top: -3px;" id="group-student-delete" onclick="deleteStudent(event)">Удалить</button></li>
-                </ol>
-            </li>
+            <li class="group-item" data-group="${inputValue}" data-group-id="${groupID}">
+              <div class="d-flex align-items-center">
+                  <h3>${inputValue}</h3>
+                  <button class="ms-2 btn btn-sm btn-danger" onclick="deleteGroup(event)">Удалить
+                      группу</button>
+              </div>
+              <span class="fs-5" id="students-empty">Эта группа пуста!</span>
+          </li>
           `;
+
+          if (groupList.children.length - 1 === 0) groupList.classList.remove('visually-hidden');
+
+          groupEmpty.classList.add('visually-hidden');
         })
         .catch(function (error) {
           console.error(error);
@@ -71,15 +70,32 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function deleteStudent(e) {
-  const currentParent = e.currentTarget.parentElement;
-  currentParent.remove();
+  const currentParent = e.currentTarget.parentElement.parentNode;
+  console.log(currentParent);
+  const currentStudentList = currentParent.parentNode;
+  console.log(currentStudentList);
+  const currentStudentsEmpty = currentStudentList.querySelector('#students-empty');
 
-  if (studentsList.children.length - 1 === 0) studentsEmpty.classList.remove('visually-hidden');
+  currentParent.remove();
+  console.log(currentStudentList.children.length - 1);
+  if (currentStudentList.children.length - 1 === 0) currentStudentsEmpty.classList.remove('visually-hidden');
 }
 
 function deleteGroup(e) {
-  const currentParent = e.currentTarget.parentElement.parentElement;
-  currentParent.remove();
+  const groupParent = e.currentTarget.parentElement.parentElement;
+  const groupID = groupParent.getAttribute("data-group-id");
 
-  if (groupList.children.length - 1 === 0) groupEmpty.classList.remove('visually-hidden');
+  axios.delete(`/api/deleteGroup/${groupID}/`, {
+    headers: {
+      "X-CSRFToken": token
+    }
+  })
+    .then(function () {
+      groupParent.remove();
+      if (groupList.children.length === 0) setTimeout(groupEmpty.classList.remove('visually-hidden'), 500);
+    })
+    .catch(function (error) {
+      console.error(error);
+      alert('Произошла ошибка. Попробуйте еще раз!')
+    });
 }

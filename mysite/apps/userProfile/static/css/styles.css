@@ -107,7 +107,7 @@
 	align-items: center;
 	justify-content: space-between;
 	list-style: none;
-	padding: 20px;
+	padding: 5px;
 	border: 1px solid #888;
 }
 
@@ -156,12 +156,6 @@
 	outline: none;
 }
 
-.accordion__content {
-	padding: 20px;
-	border: 1px solid #888;
-	border-top: 1px solid transparent;
-}
-
 .accordion[open] .accordion__icon {
 	transform: rotate(45deg);
 }
@@ -173,10 +167,11 @@
 }
 
 .accordion__content {
+	border: 1px solid #888;
+	border-top: 1px solid transparent;
 	max-height: 0;
 	opacity: 0;
 	overflow: hidden;
-	padding: 0 20px 0 40px;
 	will-change: max-height;
 	transition: all 0.3s ease-out;
 	box-sizing: content-box;
@@ -196,10 +191,13 @@
 }
 
 .open .accordion__content {
-	padding: 20px 20px 20px 40px;
 	opacity: 1;
 }
 
 #group-btn-delete {
 	margin-top: -3px;
+}
+
+.group-item::marker {
+	font-size: 20px;
 }

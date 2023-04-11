@@ -72,7 +72,7 @@
                             <div class="ex ex-3">
                                 <ul class="accordion__list p-0" id="group-list" style="list-style: none;">
                                     {% for group in groups %}
-                                        <li class="accordion" data-group="{{group.group}}">
+                                        <li class="accordion" data-group="{{group.group}}" data-group-id="{{group.id}}">
                                             <div class="d-flex align-items-center accordion__control" aria-expanded="false" onclick="accordionOpen(event)">
                                                 <button class="accordion__btn">
                                                     <span class="accordion__title">{{group.group}}</span>

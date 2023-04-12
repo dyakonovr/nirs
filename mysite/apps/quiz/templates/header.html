@@ -21,10 +21,10 @@
 <body class="bg-info container-xxl position-relative d-flex flex-column">
     <div class="d-flex align-items-center col-10 mt-2 d-flex mx-auto">
         <a href="{% url 'quiz' %}" class="link-light fs-3 text-decoration-none">EQuiz</a>
-        <a href="{% url 'profile' %}" class="ms-auto link-light text-decoration-none">Профиль</a>
+        <a href="{% url 'about' %}" class="ms-auto link-light text-decoration-none">О нас</a>
         <a href="{% url 'top' %}" class="ms-3 link-light text-decoration-none">Топ игроков</a>
-        <a href="{% url 'about' %}" class="ms-3 link-light text-decoration-none">О нас</a>
-        <a href="{% url 'logout' %}" class="ms-3 link-light text-decoration-none">Выйти</a>
+        <a href="{% url 'profile' %}" class="ms-3 link-light text-decoration-none">Профиль</a>
+        <a href="{% url 'logout' %}" class="ms-3 btn btn-primary">Выйти</a>
     </div>
     {% block content %}
     {% endblock content %}

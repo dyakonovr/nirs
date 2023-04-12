@@ -138,8 +138,21 @@ myModal.addEventListener('hide.bs.modal', () => {
     newPasswordInput.value = '';
     passwordConfirmInput.value = '';
 
+    oldPasswordInput.classList.remove('is-invalid');
+    newPasswordInput.classList.remove('is-invalid');
+    passwordConfirmInput.classList.remove('is-invalid');
+
     oldPasswordInput.classList.remove('is-valid');
     newPasswordInput.classList.remove('is-valid');
     passwordConfirmInput.classList.remove('is-valid');
+
+    const errors = document.querySelectorAll('.invalid-feedback')
+
+    if (errors){
+        errors.forEach(error=>{
+            error.remove()
+        })
+    }
+
     document.querySelector('.password-is-changed').remove();
 })

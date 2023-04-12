@@ -43,8 +43,8 @@ body {
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  padding: 50px
+  padding: 50px;
+  width: 100%
 }
 
 .window__counter {
@@ -60,8 +60,9 @@ body {
 }
 
 .window__title {
-  font-size: 35px;
-  margin: 0
+  margin: 10px 0 0;
+  font-size: 30px;
+  line-height: 37px;
 }
 
 .window__list {
@@ -205,7 +206,7 @@ body {
   height: 51.2px;
   position: absolute;
   right: 0;
-  top: 20px
+  top: 0
 }
 
 .window__header {
@@ -236,7 +237,7 @@ body {
   align-items: center;
   display: flex;
   justify-content: space-between;
-  margin: 40px 0 0;
+  margin: 30px 0 0;
   position: relative;
   width: 100%
 }
@@ -300,10 +301,6 @@ body {
   margin: 0
 }
 
-.window__descr:not(:last-child) {
-  margin: 0 0 10px;
-}
-
 .window__icon {
   height: 30px;
   margin: 0 5px 0 0;
@@ -317,19 +314,26 @@ body {
   justify-content: center
 }
 
+.window__img,
+.window__img-wrapper {
+  height: 250px;
+  width: 500px
+}
+
+.window__img-wrapper {
+  margin: 20px 0 0
+}
+
 .window__img {
   display: block;
-  height: 100%;
-  margin: 20px 0 0;
-  width: 500px
 }
 
 .window__input {
   border: 2px solid #0dcbf0;
+  border: 2px solid var(--color-main);
   border-radius: 5px;
   font-size: 17px;
-  height: 51.5px;
-  margin: 20px 0 0;
+  height: 51px;
   outline: none;
   padding: 6px 205px 5px 5px;
   width: 100%
@@ -414,4 +418,4 @@ input:checked+.slider:before {
   width: 1px
 }
 
-/*# sourceMappingURL=main.f1ebed94.css.map*/
+/*# sourceMappingURL=main.54f4f84d.css.map*/

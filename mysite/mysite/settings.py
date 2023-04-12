@@ -69,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.userProfile.context_processors.changePasswordForm',
             ],
         },
     },
@@ -140,4 +141,4 @@ AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = 'logIn'
 
 LOGIN_REDIRECT_URL = ''
-LOGOUT_REDIRECT_URL = 'logIn'
+LOGOUT_REDIRECT_URL = ''

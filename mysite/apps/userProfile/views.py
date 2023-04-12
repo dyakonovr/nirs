@@ -7,8 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import login as auth_login ,authenticate, update_session_auth_hash
 from django.http import JsonResponse
 
-def is_ajax(request):
-    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 
 @login_required
 def profile(request):
@@ -58,22 +57,22 @@ def profile(request):
             currentPlaceHard = count
 
     # Смена пароля
+    def is_ajax(request):
+        return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+    
     changePasswordForm = ChangePasswordForm(request.user)
     if is_ajax(request=request):
         changePasswordForm = ChangePasswordForm(request.user,request.POST)
         if changePasswordForm.is_valid():
-            oldPassword = changePasswordForm.cleaned_data['oldPassword']
+
             newPassword = changePasswordForm.cleaned_data['newPassword']
-            passwordConfirm = changePasswordForm.cleaned_data['passwordConfirm']
+
             user = User.objects.get(username=currentUser.username)
             user.set_password(newPassword)
             user.save()
+
             update_session_auth_hash(request, user)
-            data = {
-                'oldPassword': oldPassword,
-                'newPassword': newPassword,
-                'passwordConfirm': passwordConfirm,
-            }
+
             return JsonResponse({'success': 'Пароль успешно изменён'})
         else:
             return JsonResponse({'errors': changePasswordForm.errors})
@@ -88,7 +87,7 @@ def profile(request):
         'currentPlaceEasy': currentPlaceEasy,
         'currentPlaceMedium': currentPlaceMedium,
         'currentPlaceHard': currentPlaceHard,
-        'form': changePasswordForm,
+        'changePasswordForm': changePasswordForm,
     }
 
     return render(request, 'profile.html', context=content)

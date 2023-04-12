@@ -4,17 +4,9 @@
 {% block content %}
 <div class="mt-5 col-7 d-flex flex-column mx-auto">
     <div class="d-flex flex-column bg-white p-5 rounded-4">
-        {% if messages %}
-            {% for message in messages %}
-                <!-- ошибка при смене -->
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}<span>{{message}}</span>{% endif %} 
-                <!-- успешная смена -->
-                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}<span>{{message}}</span>{% endif %}
-            {% endfor %}
-        {% endif %}
-        <p class="mb-1 fs-3">Имя пользователя: <span class="fw-semibold">{{ username}}</span></p>
-        <p class="mb-1 fs-3">Электронная почта: <span class="fw-semibold">{{ email}}</span></p>
-        <p class="mb-1 fs-3">Номер телефона: <span class="fw-semibold">{{phoneNumber }}</span></p>
+        <p class="mb-1 fs-3">Имя пользователя: <span class="fw-semibold">{{ currentUser.username }}</span></p>
+        <p class="mb-1 fs-3">Электронная почта: <span class="fw-semibold">{{ currentUser.email }}</span></p>
+        <p class="mb-1 fs-3">Номер телефона: <span class="fw-semibold">{{ currentUser.phoneNumber }}</span></p>
         <p class="mb-1 fs-3">Ваши очки: <span class="fw-semibold"></span></p>
         <span>Easy : {{userScoreEasy}}</span>
         <span>Medium: {{userScoreMedium}}</span>

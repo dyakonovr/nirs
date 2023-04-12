@@ -13,16 +13,12 @@ from django.http import JsonResponse
 def profile(request):
     currentUser = request.user
 
-    username = currentUser.username
-    email = currentUser.email
-    phoneNumber = currentUser.phoneNumber
-
-    userScoreEasy = UserScore.objects.get(
-        user_id=currentUser.id).user_score_easy
-    userScoreMedium = UserScore.objects.get(
-        user_id=currentUser.id).user_score_medium
-    userScoreHard = UserScore.objects.get(
-        user_id=currentUser.id).user_score_hard
+    userScoreEasy = UserScore.objects.get_or_create(
+        user_id=currentUser.id)[0].user_score_easy
+    userScoreMedium = UserScore.objects.get_or_create(
+        user_id=currentUser.id)[0].user_score_medium
+    userScoreHard = UserScore.objects.get_or_create(
+        user_id=currentUser.id)[0].user_score_hard
 
     allScoresEasy = UserScore.objects.order_by("-user_score_easy")
     allScoresMedium = UserScore.objects.order_by("-user_score_medium")
@@ -37,7 +33,7 @@ def profile(request):
         count += 1
         user_id = user.user_id
         username_ = User.objects.get(id=user_id).username
-        if username == username_:
+        if currentUser.username == username_:
             currentPlaceEasy = count
 
     count = 0
@@ -45,7 +41,7 @@ def profile(request):
         count += 1
         user_id = user.user_id
         username_ = User.objects.get(id=user_id).username
-        if username == username_:
+        if currentUser.username == username_:
             currentPlaceMedium = count
 
     count = 0
@@ -53,7 +49,7 @@ def profile(request):
         count += 1
         user_id = user.user_id
         username_ = User.objects.get(id=user_id).username
-        if username == username_:
+        if currentUser.username == username_:
             currentPlaceHard = count
 
     # Смена пароля
@@ -78,9 +74,7 @@ def profile(request):
             return JsonResponse({'errors': changePasswordForm.errors})
 
     content = {
-        'username': username,
-        'email': email,
-        'phoneNumber': phoneNumber,
+        'currentUser': currentUser,
         'userScoreEasy': userScoreEasy,
         'userScoreMedium': userScoreMedium,
         'userScoreHard': userScoreHard,

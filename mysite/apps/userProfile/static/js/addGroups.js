@@ -30,12 +30,24 @@ function getToken() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
+  function makeCode(length) {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < length) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      counter += 1;
+    }
+    return result;
+  }
   groupBtn.addEventListener('click', () => {
     const inputValue = groupInput.value;
     if (!document.querySelector(`[data-group="${inputValue}"]`)) {
       axios.post('/api/createGroup/', {
         "user": userID,
-        "group": inputValue
+        "group": inputValue,
+        "code": makeCode(51),
       }, {
         headers: {
           "X-CSRFToken": token

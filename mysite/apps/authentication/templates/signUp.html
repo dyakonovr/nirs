@@ -15,6 +15,14 @@
     {% for non_field_error in form.non_field_errors %}
         <span class="error-message">{{ none_field_error }}</span>
     {% endfor %}
+    <div id="id_role" class="form-check">
+        <div>
+        <label for="id_role_0" class="form-check-label"><input type="radio" name="role" value="Teacher" class="form-check-input" maxlength="255" required=True id="id_role_0">Я учитель</label>
+        </div>
+        <div>
+            <label for="id_role_1" class="form-check-label"><input type="radio" name="role" value="Student" class="form-check-input" maxlength="255" required=True id="id_role_1">Я ученик</label>
+        </div>
+    </div>
     <label for="confirm-valid" class="label-check mb-3 cursor-pointer">
         <input type="checkbox" id="confirm-valid" required class="form-check-input"> Я проверил правильность введенный данных
     </label>

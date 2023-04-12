@@ -3,6 +3,8 @@ from .forms import SignUpForm, LogInForm
 from django.contrib.auth import login as auth_login, logout, authenticate
 from django.contrib import messages
 from apps.userProfile.models import UserScores
+import string
+import random
 
 
 def logIn(request):
@@ -30,11 +32,13 @@ def logIn(request):
 
 def signUp(request):
     if not request.user.is_authenticated:
+
         if request.method == 'POST':
             form = SignUpForm(request.POST)
             if form.is_valid():
                 user = form.save(commit=False)
                 user.set_password(user.password)
+                user.role = request.POST.get('role')
                 user.save()
 
                 userScore = UserScores(user=user)

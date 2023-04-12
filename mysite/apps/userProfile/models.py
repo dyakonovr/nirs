@@ -23,12 +23,13 @@ class UserScores(models.Model):
         return self.user.username
 
 
-class StudentsGroup(models.Model):
+class TeachersGroup(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='group')
     group = models.CharField(max_length=255)
+    code = models.TextField()
     def __str__(self):
         return self.group
     
-class StudentGroupUser(models.Model):
-    user = models.TextField()
-    studentGroups = models.ManyToManyField(StudentsGroup)
+class Student(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(TeachersGroup,on_delete=models.CASCADE)

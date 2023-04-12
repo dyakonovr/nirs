@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import models
 from apps.authentication.models import User
-from .models import StudentsGroup
+from .models import TeachersGroup
 
 
 class ChangePasswordForm(forms.Form):
@@ -48,7 +48,7 @@ class ChangePasswordForm(forms.Form):
 
 class AddGroupForm(forms.ModelForm):
     class Meta:
-        model = StudentsGroup
+        model = TeachersGroup
         fields = ('group',)
         widgets = {
             'group': forms.TextInput(

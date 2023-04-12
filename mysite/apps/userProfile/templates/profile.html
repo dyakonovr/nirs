@@ -10,13 +10,18 @@
     <h1 class="mb-4">Профиль</h1>
     <div class="tabs">
         <ul class="tabs__list mb-3 w-100">
-            <li class="tabs__item w-50"><button class="tabs__btn fs-6 tabs__btn--active rounded-start-4"
+            {% if currentUser.role == 'Teacher' %}
+                <li class="tabs__item w-50"><button class="tabs__btn fs-6 tabs__btn--active rounded-start-4"
+                        data-tabs-path="data">Мои данные</button>
+                </li>
+                <li class="tabs__item w-50"><button class="tabs__btn fs-6 rounded-end-4" data-tabs-path="students">Мои ученики</button></li>
+            {% else %}
+                <li class="tabs__item w-50"><button class="tabs__btn fs-6 tabs__btn--active rounded-start-4"
                     data-tabs-path="data">Мои данные</button>
-            </li>
-            <!-- Rus: rounded-end-4 -->
-            <li class="tabs__item w-50"><button class="tabs__btn fs-6" data-tabs-path="results">Результаты
-                    тестов</button></li> 
-            <li class="tabs__item w-50"><button class="tabs__btn fs-6 rounded-end-4" data-tabs-path="students">Мои ученики</button></li>
+                </li>
+                <li class="tabs__item w-50"><button class="tabs__btn fs-6 rounded-end-4" data-tabs-path="results">Результаты
+                        тестов</button></li> 
+            {% endif %}
         </ul>
         <div class="tabs__content tabs__content--active" data-tabs-target="data">
             <div class="content d-flex flex-column">
@@ -24,6 +29,19 @@
                     <p class="fs-5 mb-1 mt-0">Имя пользователя: <span class="fw-semibold">{{ currentUser.username }}</span></p>
                     <p class="fs-5 mb-1 mt-0">Электронная почта: <span class="fw-semibold">{{ currentUser.email }}</span></p>
                     <p class="fs-5 mb-2 mt-0">Номер телефона: <span class="fw-semibold">{{ currentUser.phoneNumber }}</span></p>
+                    {% if currentUser.role == 'Teacher' %}
+                        <p class="fs-5 mb-2 mt-0">Статус: <span class="fw-semibold">Преподаватель</span></p>
+                    {% else %}
+                        <p class="fs-5 mb-2 mt-0">Статус: <span class="fw-semibold">Ученик</span></p>
+                    {% endif %}
+                    {% if userGroups %}
+                        <span>Участник данных групп:</span>
+                        <ol>
+                        {% for userGroup,groupOwner in userGroups.items %}
+                            <li>{{userGroup.group.group}}. Преподаватель {{groupOwner.user.username}}</li>
+                        {% endfor %}
+                        </ol>
+                    {% endif %}
                     <span class="visually-hidden" data-user-id>{{currentUser.id}}</span>
                     <div class="mt-2">
                         <button type="submit" class="btn btn-warning" data-bs-toggle="modal"
@@ -64,56 +82,60 @@
         <div class="tabs__content" data-tabs-target="students">
             <div class="content d-flex flex-column">
                 <div class="d-flex flex-column">
-                    {% if groups|length == 0 %}
+                    {% if groupStudents|length == 0 %}
                         <span id="group-empty" class="fs-5">Вы ещё не создали группы!</span>
                         <ul id="group-list" class="accordion__list visually-hidden p-0" style="list-style: none;"></ul>
                     {% else %}
                         <span id="group-empty" class="visually-hidden fs-4 fw-bold text-center">Вы ещё не создали группы!</span>
                         <ol id="group-list" style="padding-inline-start: 20px;">
-                            {% for group in groups %}
+                            {% for group,students in groupStudents.items %}
                                 <li class="group-item mt-3" data-group="{{group.group}}" data-group-id="{{group.id}}">
                                     <div class="d-flex align-items-center">
                                         <h3>{{group.group}}</h3>
+                                        <a class="btn btn-info ms-2 mb-1 btn-sm text-light" href="{% url 'addGroup' %}?user_id={{currentUser.id}}&group_id={{group.id}}&code={{group.code}}">Скопировать ссылку для добавления учеников</a>
                                         <button class="ms-2 btn btn-sm btn-danger" onclick="deleteGroup(event)">Удалить
                                             группу</button>
                                     </div>
                                     <ul class="p-0" style="list-style: none;" id="students-list">
-                                        <li class="fs-5 visually-hidden" id="students-empty">Эта группа пуста!</li>
-                                        <!-- FOR for students -->
-                                        <li class="accordion">
-                                            <div class="d-flex align-items-center accordion__control" aria-expanded="false"
-                                                onclick="accordionOpen(event)">
-                                                <button class="accordion__btn">
-                                                    <span class="accordion__title">Ученик 1</span>
-                                                </button>
-                                                <button class="ms-auto btn btn-sm btn-warning" id="btn-delete" onclick="deleteStudent(event)">Удалить
-                                                    ученика</button>
-                                            </div>
-                                            <div class="accordion__content" aria-hidden="true">
-                                                <table class="table table-striped table-hover m-0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">#</th>
-                                                            <th scope="col">Тема</th>
-                                                            <th scope="col" class="text-center">Результат</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for topic, score in scores.items %}
-                                                        <tr>
-                                                            <th scope="row">{{ forloop.counter }}</th>
-                                                            <td>{{ topic }}</td>
-                                                            {% if topic.id == 23 %}
-                                                            <td class="text-center">{{ score }}/32</td>
-                                                            {% else %}
-                                                            <td class="text-center">{{ score }}/10</td>
-                                                            {% endif %}
-                                                        </tr>
-                                                        {% endfor %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </li>
+                                        {% if students|length == 0 %}
+                                            <li class="fs-5" id="students-empty">Эта группа пуста!</li>
+                                        {% endif %}
+                                        {% for student, studentScores in students.items %}
+                                            <li class="accordion">
+                                                <div class="d-flex align-items-center accordion__control" data-student-id="{{student.id}}" aria-expanded="false"
+                                                    onclick="accordionOpen(event)">
+                                                    <button class="accordion__btn">
+                                                        <span class="accordion__title">{{student.student.username}}</span>
+                                                    </button>
+                                                    <button class="ms-auto btn btn-sm btn-warning" id="btn-delete" onclick="deleteStudent(event)">Удалить
+                                                        ученика</button>
+                                                </div>
+                                                <div class="accordion__content" aria-hidden="true">
+                                                    <table class="table table-striped table-hover m-0">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">#</th>
+                                                                <th scope="col">Тема</th>
+                                                                <th scope="col" class="text-center">Результат</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for topic, score in studentScores.items %}
+                                                            <tr>
+                                                                <th scope="row">{{ forloop.counter }}</th>
+                                                                <td>{{ topic }}</td>
+                                                                {% if topic.id == 23 %}
+                                                                <td class="text-center">{{ score }}/32</td>
+                                                                {% else %}
+                                                                <td class="text-center">{{ score }}/10</td>
+                                                                {% endif %}
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
                                     </ul>
                                 </li>
                             {% endfor %}

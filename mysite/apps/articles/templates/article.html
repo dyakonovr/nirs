@@ -69,23 +69,44 @@
                     тест</button>
             </form>
         {% else %}
-            <div class="mt-3 mb-5 mx-auto bg-info-subtle d-flex flex-column justify-content-center p-4 rounded-4">
-                <h1 class="fs-1 fw-500 mb-3"> Результат теста</h1>
-                <span class="fs-3">Вы набрали {{userTestScore}}/7 баллов!</span>
-                {% if testScore == 7 %}
-                    <span class="fs-3">Идеальная работа!</span>
-                {% elif testScore > 5 %}
-                    <span class="fs-3">Вы отлично справились!</span>
-                {% elif testScore > 3 %}
-                    <span class="fs-3">Вы хорошо постарались!</span>
-                {% else %}
-                    <span class="fs-3">Неплохо, попробуйте ещё раз!</span>
-                {% endif %}
-                <div class="d-flex align-items-center justify-content-between mt-5">
-                    <a class="btn btn-primary" href="{{topicNamesLinks|dict_key:topicName}}">Вернуться назад к статье</a>
-                    <a class="btn btn-primary" href="{{nextTopicLink}}">Перейти к следующей статье</a>
+            {% if currentUser.role == 'Teacher' %}
+                <div class="mt-3 mb-5 mx-auto bg-info-subtle d-flex flex-column justify-content-center p-4 rounded-4">
+                    <h1 class="fs-1 fw-500 mb-3"> Результат теста</h1>
+                    <span class="fs-3">Вы набрали {{userTestScore}}/7 баллов!</span>
+                    {% if testScore == 7 %}
+                        <span class="fs-3">Идеальная работа!</span>
+                    {% elif testScore > 5 %}
+                        <span class="fs-3">Вы отлично справились!</span>
+                    {% elif testScore > 3 %}
+                        <span class="fs-3">Вы хорошо постарались!</span>
+                    {% else %}
+                        <span class="fs-3">Неплохо, попробуйте ещё раз!</span>
+                    {% endif %}
+                    <span>Внимание! Вы являетесь преподавателем, поэтому ваши результаты не будут обновлены!</span>
+                    <div class="d-flex align-items-center justify-content-between mt-5">
+                        <a class="btn btn-primary" href="{{topicNamesLinks|dict_key:topicName}}">Вернуться назад к статье</a>
+                        <a class="btn btn-primary" href="{{nextTopicLink}}">Перейти к следующей статье</a>
+                    </div>
                 </div>
-            </div>
+            {% else %}
+                <div class="mt-3 mb-5 mx-auto bg-info-subtle d-flex flex-column justify-content-center p-4 rounded-4">
+                    <h1 class="fs-1 fw-500 mb-3"> Результат теста</h1>
+                    <span class="fs-3">Вы набрали {{userTestScore}}/7 баллов!</span>
+                    {% if testScore == 7 %}
+                        <span class="fs-3">Идеальная работа!</span>
+                    {% elif testScore > 5 %}
+                        <span class="fs-3">Вы отлично справились!</span>
+                    {% elif testScore > 3 %}
+                        <span class="fs-3">Вы хорошо постарались!</span>
+                    {% else %}
+                        <span class="fs-3">Неплохо, попробуйте ещё раз!</span>
+                    {% endif %}
+                    <div class="d-flex align-items-center justify-content-between mt-5">
+                        <a class="btn btn-primary" href="{{topicNamesLinks|dict_key:topicName}}">Вернуться назад к статье</a>
+                        <a class="btn btn-primary" href="{{nextTopicLink}}">Перейти к следующей статье</a>
+                    </div>
+                </div>
+            {% endif %}
         {% endif %}
     </div>
 </div>

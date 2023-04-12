@@ -34,9 +34,13 @@ class SignUpForm(models.ModelForm):
         }
     ))
 
+    field_order = ['username', 'first_name', 'last_name', 'email',
+                   'phoneNumber', 'password', 'passwordConfirm']
+
     class Meta:
         model = User
-        fields = ('username', 'email', 'phoneNumber', 'password')
+        fields = ('username', 'first_name', 'last_name',
+                  'email', 'phoneNumber', 'password')
         widgets = {
             'username': forms.TextInput(
                 attrs={
@@ -62,6 +66,18 @@ class SignUpForm(models.ModelForm):
                 attrs={
                     'placeholder': 'Номер телефона с кодом страны',
                     'min_length': 12,
+                    'class': 'form-control mb-2',
+                }
+            ),
+            'first_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Имя',
+                    'class': 'form-control mb-2',
+                }
+            ),
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Фамилия',
                     'class': 'form-control mb-2',
                 }
             ),

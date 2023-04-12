@@ -22,8 +22,11 @@ def article(request):
     topicId = request.GET.get('topic')
 
     if Topic.objects.filter(id=topicId).exists():
+
         currentTopic = TopicMaterials.objects.get(topic=topicId)
+
         # Основые переменные, которые передаются на страницу
+        currentUser = request.user
         allPhotos = currentTopic.photos.split('\n')
         try:
             movies = currentTopic.videos.split(',')
@@ -75,7 +78,7 @@ def article(request):
                 textRdy = textRdy.replace(
                     "^^", rf'''
                     <div class="d-flex flex-column float-end ms-3 d-block border border-3 border-info rounded-4" style="max-width: 300px">
-                        <img src="{photo}" width="270" height="400" alt="" class="align-self-center mt-2">{"".join(rdyInfo[counter])}
+                        <img src="{photo}" width="295" height="400" alt="" class="d-block" style="border-radius:14px 13px 0 0">{"".join(rdyInfo[counter])}
                     </div>
                     ''', 1)
             counter += 1
@@ -135,20 +138,23 @@ def article(request):
 
             userchoices = request.POST.copy()
             del userchoices['csrfmiddlewaretoken']
-
+            
             testScore = 0
             for answer in userchoices.values():
                 currentAnswer = QuestionOption.objects.get(
                     id=answer).is_correct
                 if currentAnswer:
                     testScore += 1
+
             request.session['userTestScore'] = testScore
             request.session['testFlag'] = True
             request.session['onResultPage'] = True
 
-            if testScore > userScore:
-                UserScores.objects.update_or_create(user=request.user, defaults={
-                                                    f"user_score_{topicId}": testScore})
+            if currentUser.role != 'Teacher':
+
+                if testScore > userScore:
+                    UserScores.objects.update_or_create(user=request.user, defaults={
+                                                        f"user_score_{topicId}": testScore})
 
             return HttpResponseRedirect(f'article?topic={topicId}')
 
@@ -167,6 +173,7 @@ def article(request):
             'userTestScore': userTestScore,
             'testFlag': testFlag,
             'nextTopicLink': nextTopicLink,
+            'currentUser': currentUser,
         }
         return render(request, 'article.html', context=content)
     else:

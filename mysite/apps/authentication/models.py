@@ -15,5 +15,4 @@ class User(AbstractUser):
     phoneNumber = models.CharField(unique=True, max_length=12, error_messages={
         'unique': 'Этот номер телефона уже зарегистрирован'
     })
-    first_name = None
-    last_name = None
+    role = models.CharField(max_length=255,default='')

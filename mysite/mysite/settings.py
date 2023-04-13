@@ -141,4 +141,4 @@ AUTH_USER_MODEL = 'authentication.User'
 LOGIN_URL = 'logIn'
 
 LOGIN_REDIRECT_URL = ''
-LOGOUT_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = 'about'

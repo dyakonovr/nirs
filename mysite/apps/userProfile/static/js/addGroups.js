@@ -3,8 +3,6 @@ const groupList = document.querySelector('#group-list');
 const groupBtn = document.querySelector('#group-btn');
 const groupInput = document.querySelector('#group-input');
 const groupEmpty = document.querySelector('#group-empty');
-// const studentsEmpty = document.querySelector('#students-empty');
-// const studentsList = document.querySelector('#students-list');
 const token = getToken();
 
 function getToken() {
@@ -41,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     return result;
   }
+
   groupBtn.addEventListener('click', () => {
     const inputValue = groupInput.value;
     if (!document.querySelector(`[data-group="${inputValue}"]`)) {
@@ -55,10 +54,13 @@ document.addEventListener('DOMContentLoaded', function () {
       })
         .then(function (response) {
           const groupID = response.data.id;
+          const groupCode = response.data.code;
+
           groupList.innerHTML += `
-            <li class="group-item" data-group="${inputValue}" data-group-id="${groupID}">
+            <li class="group-item mt-3" data-group="${inputValue}" data-group-id="${groupID}">
               <div class="d-flex align-items-center">
                   <h3>${inputValue}</h3>
+                  <button class="btn btn-info ms-2 btn-sm text-light" onclick="copyLink(event)" data-link="/addGroup?user_id=${userID}&group_id=${groupID}&code=${groupCode}">Скопировать ссылку на группу</button>
                   <button class="ms-2 btn btn-sm btn-danger" onclick="deleteGroup(event)">Удалить
                       группу</button>
               </div>
@@ -83,14 +85,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function deleteStudent(e) {
   const currentParent = e.currentTarget.parentElement.parentNode;
-  console.log(currentParent);
   const currentStudentList = currentParent.parentNode;
-  console.log(currentStudentList);
   const currentStudentsEmpty = currentStudentList.querySelector('#students-empty');
+  const studentID = Number(currentParent.getAttribute("data-student-id"));
 
-  currentParent.remove();
-  console.log(currentStudentList.children.length - 1);
-  if (currentStudentList.children.length - 1 === 0) currentStudentsEmpty.classList.remove('visually-hidden');
+  axios.delete(`/api/deleteStudent/${studentID}/`, {}, {
+    headers: {
+      "X-CSRFToken": token
+    }
+  }).then(function () {
+    currentParent.remove();
+    if (currentStudentList.children.length - 1 === 0) currentStudentsEmpty.classList.remove('visually-hidden');
+  }).catch(function (error) {
+    console.error(error);
+    alert("Произошла ошибка! Попробуйте ещё раз.");
+  })
 }
 
 function deleteGroup(e) {
@@ -110,4 +119,15 @@ function deleteGroup(e) {
       console.error(error);
       alert('Произошла ошибка. Попробуйте еще раз!')
     });
+}
+
+const notification_link = document.querySelector('#notification_link');
+
+function copyLink(e) {
+  const link = e.currentTarget.getAttribute("data-link");
+
+  notification_link.classList.add('notification--active');
+  navigator.clipboard.writeText(link);
+
+  setTimeout(function () { notification_link.classList.remove('notification--active') }, 3000);
 }

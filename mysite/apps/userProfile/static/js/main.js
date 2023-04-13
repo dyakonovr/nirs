@@ -116,7 +116,7 @@ function changePasswordForm() {
                     });
 
                     $(formId).find(formBut).after(() => {
-                        return '<span class="text-success">' + data['success'] + '</span>'
+                        return '<span class="text-success password-is-changed">' + data['success'] + '</span>'
                     })
                 }
             },
@@ -126,3 +126,33 @@ function changePasswordForm() {
         })
     });
 }
+
+
+const myModal = document.getElementById('exampleModal');
+const oldPasswordInput = document.getElementById('id_oldPassword');
+const newPasswordInput = document.getElementById('id_newPassword');
+const passwordConfirmInput = document.getElementById('id_passwordConfirm');
+
+myModal.addEventListener('hide.bs.modal', () => {
+    oldPasswordInput.value = '';
+    newPasswordInput.value = '';
+    passwordConfirmInput.value = '';
+
+    oldPasswordInput.classList.remove('is-invalid');
+    newPasswordInput.classList.remove('is-invalid');
+    passwordConfirmInput.classList.remove('is-invalid');
+
+    oldPasswordInput.classList.remove('is-valid');
+    newPasswordInput.classList.remove('is-valid');
+    passwordConfirmInput.classList.remove('is-valid');
+
+    const errors = document.querySelectorAll('.invalid-feedback')
+
+    if (errors) {
+        errors.forEach(error => {
+            error.remove()
+        })
+    }
+
+    document.querySelector('.password-is-changed').remove();
+})

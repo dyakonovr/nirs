@@ -28,11 +28,11 @@
                 <div class="profile d-flex flex-column">
                     <p class="fs-5 mb-1 mt-0">Имя пользователя: <span class="fw-semibold">{{ currentUser.username }}</span></p>
                     <p class="fs-5 mb-1 mt-0">Электронная почта: <span class="fw-semibold">{{ currentUser.email }}</span></p>
-                    <p class="fs-5 mb-2 mt-0">Номер телефона: <span class="fw-semibold">{{ currentUser.phoneNumber }}</span></p>
+                    <p class="fs-5 mb-1 mt-0">Номер телефона: <span class="fw-semibold">{{ currentUser.phoneNumber }}</span></p>
                     {% if currentUser.role == 'Teacher' %}
-                        <p class="fs-5 mb-2 mt-0">Статус: <span class="fw-semibold">Преподаватель</span></p>
+                        <p class="fs-5 mb-1 mt-0">Статус: <span class="fw-semibold">Преподаватель</span></p>
                     {% else %}
-                        <p class="fs-5 mb-2 mt-0">Статус: <span class="fw-semibold">Ученик</span></p>
+                        <p class="fs-5 mb-1 mt-0">Статус: <span class="fw-semibold">Ученик</span></p>
                     {% endif %}
                     {% if userGroups %}
                         <span>Участник данных групп:</span>
@@ -92,7 +92,7 @@
                                 <li class="group-item mt-3" data-group="{{group.group}}" data-group-id="{{group.id}}">
                                     <div class="d-flex align-items-center">
                                         <h3>{{group.group}}</h3>
-                                        <a class="btn btn-info ms-2 mb-1 btn-sm text-light" href="{% url 'addGroup' %}?user_id={{currentUser.id}}&group_id={{group.id}}&code={{group.code}}">Скопировать ссылку для добавления учеников</a>
+                                        <button class="btn btn-info ms-2 btn-sm text-light" onclick="copyLink(event)" data-link="{% url 'addGroup' %}?user_id={{currentUser.id}}&group_id={{group.id}}&code={{group.code}}">Скопировать ссылку на группу</button>
                                         <button class="ms-2 btn btn-sm btn-danger" onclick="deleteGroup(event)">Удалить
                                             группу</button>
                                     </div>
@@ -101,8 +101,8 @@
                                             <li class="fs-5" id="students-empty">Эта группа пуста!</li>
                                         {% endif %}
                                         {% for student, studentScores in students.items %}
-                                            <li class="accordion">
-                                                <div class="d-flex align-items-center accordion__control" data-student-id="{{student.id}}" aria-expanded="false"
+                                            <li class="accordion" data-student-id="{{student.id}}">
+                                                <div class="d-flex align-items-center accordion__control" aria-expanded="false"
                                                     onclick="accordionOpen(event)">
                                                     <button class="accordion__btn">
                                                         <span class="accordion__title">{{student.student.username}}</span>
@@ -178,6 +178,9 @@
             </div>
         </div>
     </div>
+</div>
+<div class="notification" id="notification_link">
+    <div class="notification__text">Ссылка скопирована в буфер обмена</div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

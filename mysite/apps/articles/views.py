@@ -160,7 +160,6 @@ def article(request):
 
         userTestScore = request.session['userTestScore']
         testFlag = request.session['testFlag']
-
         content = {
             'topicName': topicName,
             'test': questionChoices,

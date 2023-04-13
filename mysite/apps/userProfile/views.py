@@ -15,6 +15,7 @@ def profile(request):
 
     # Получение данных юзера
     currentUser = request.user
+
     teacherGroup = {}
     for groupMember in Student.objects.filter(student=currentUser):
         teacherGroup[groupMember] = TeachersGroup.objects.get(
@@ -101,7 +102,7 @@ def addGroup(request):
     group_id = request.GET.get('group_id')
     code = request.GET.get('code')
 
-    if User.objects.filter(id=teacher_id).exists() and TeachersGroup.objects.filter(id=group_id).exists() and TeachersGroup.objects.filter(code=code).exists():
+    if User.objects.filter(id=teacher_id).exists() and TeachersGroup.objects.filter(id=group_id,code=code).exists():
         if int(teacher_id) != request.user.id:
             if request.user.role != 'Teacher':
                 if not Student.objects.filter(group_id=group_id, student=request.user).exists():

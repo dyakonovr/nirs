@@ -55,12 +55,13 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function (response) {
           const groupID = response.data.id;
           const groupCode = response.data.code;
+          const domain = document.domain;
 
           groupList.innerHTML += `
             <li class="group-item mt-3" data-group="${inputValue}" data-group-id="${groupID}">
               <div class="d-flex align-items-center">
                   <h3>${inputValue}</h3>
-                  <button class="btn btn-info ms-2 btn-sm text-light" onclick="copyLink(event)" data-link="/addGroup?user_id=${userID}&group_id=${groupID}&code=${groupCode}">Скопировать ссылку на группу</button>
+                  <button class="btn btn-info ms-2 btn-sm text-light" onclick="copyLink(event)" data-link="${domain}:8000/addGroup?user_id=${userID}&group_id=${groupID}&code=${groupCode}">Скопировать ссылку на группу</button>
                   <button class="ms-2 btn btn-sm btn-danger" onclick="deleteGroup(event)">Удалить
                       группу</button>
               </div>
@@ -76,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
           console.error(error);
           alert('Произошла ошибка. Попробуйте еще раз!')
         });
-      
+
     } else alert('Такая группа уже существует!');
 
     groupInput.value = '';
@@ -88,18 +89,25 @@ function deleteStudent(e) {
   const currentStudentList = currentParent.parentNode;
   const currentStudentsEmpty = currentStudentList.querySelector('#students-empty');
   const studentID = Number(currentParent.getAttribute("data-student-id"));
-
-  axios.delete(`/api/deleteStudent/${studentID}/`, {}, {
-    headers: {
-      "X-CSRFToken": token
-    }
-  }).then(function () {
-    currentParent.remove();
-    if (currentStudentList.children.length - 1 === 0) currentStudentsEmpty.classList.remove('visually-hidden');
+  let userToken;
+  axios.get(`/api/getToken/${studentID}/`, {}).then(function (response) {
+    userToken = response.data.key
+    axios.delete(`/api/deleteStudent/${studentID}/`, {
+      headers: {
+        "Authorization": `Token ${userToken}`,
+      }
+    }).then(function () {
+      currentParent.remove();
+      if (currentStudentList.children.length - 1 === 0) currentStudentsEmpty.classList.remove('visually-hidden');
+    }).catch(function (error) {
+      console.error(error);
+      alert("Произошла ошибка! Попробуйте ещё раз.");
+    })
   }).catch(function (error) {
     console.error(error);
     alert("Произошла ошибка! Попробуйте ещё раз.");
   })
+  
 }
 
 function deleteGroup(e) {

@@ -31,5 +31,5 @@ class TeachersGroup(models.Model):
         return self.group
     
 class Student(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    student = models.ForeignKey(User, on_delete=models.CASCADE,related_name='student')
     group = models.ForeignKey(TeachersGroup,on_delete=models.CASCADE)

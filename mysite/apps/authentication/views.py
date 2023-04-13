@@ -3,8 +3,7 @@ from .forms import SignUpForm, LogInForm
 from django.contrib.auth import login as auth_login, logout, authenticate
 from django.contrib import messages
 from apps.userProfile.models import UserScores
-import string
-import random
+from rest_framework.authtoken.models import Token
 
 
 def logIn(request):
@@ -40,6 +39,8 @@ def signUp(request):
                 user.set_password(user.password)
                 user.role = request.POST.get('role')
                 user.save()
+                
+                Token.objects.create(user=user)
 
                 userScore = UserScores(user=user)
                 userScore.save()

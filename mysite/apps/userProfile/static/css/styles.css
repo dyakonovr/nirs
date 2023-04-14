@@ -102,6 +102,11 @@
 	margin-bottom: 10px;
 }
 
+.group-item:not(:last-child) {
+	padding: 0 0 15px;
+	border-bottom: 1px solid black;
+}
+
 .accordion__control {
 	display: flex;
 	align-items: center;

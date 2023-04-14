@@ -103,6 +103,8 @@
                                     <ul class="p-0" style="list-style: none;" id="students-list">
                                         {% if students|length == 0 %}
                                             <li class="fs-5" id="students-empty">Эта группа пуста!</li>
+                                        {% else %}
+                                            <li class="fs-5 visually-hidden" id="students-empty">Эта группа пуста!</li>
                                         {% endif %}
                                         {% for student, studentScores in students.items %}
                                             <li class="accordion" data-student-id="{{student.student_id}}">

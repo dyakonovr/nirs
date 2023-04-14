@@ -14,9 +14,13 @@
   color: #fff;
   background-color: #0dcaf0;
   transform: translate(-50%, -150%);
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  visibility: hidden;
+  user-select: none;
 }
 
 .notification--active {
+  user-select: auto;
+  visibility: visible;
   transform: translate(-50%, 0);
 }

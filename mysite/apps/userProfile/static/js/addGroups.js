@@ -5,6 +5,8 @@ const groupInput = document.querySelector('#group-input');
 const groupEmpty = document.querySelector('#group-empty');
 const token = getToken();
 
+console.log(groupEmpty);
+
 function getToken() {
   function getCookie(name) {
     var cookieValue = null;
@@ -88,6 +90,7 @@ function deleteStudent(e) {
   const currentParent = e.currentTarget.parentElement.parentNode;
   const currentStudentList = currentParent.parentNode;
   const currentStudentsEmpty = currentStudentList.querySelector('#students-empty');
+  console.log(currentStudentsEmpty);
   const studentID = Number(currentParent.getAttribute("data-student-id"));
   let userToken;
   axios.get(`/api/getToken/${studentID}/`, {}).then(function (response) {

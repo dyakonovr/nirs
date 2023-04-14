@@ -36,4 +36,4 @@ class TopicMaterials(models.Model):
     personInfo = models.TextField(default='')
 
     def __str__(self):
-        return self.topic
+        return self.topic.topic

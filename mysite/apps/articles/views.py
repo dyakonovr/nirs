@@ -162,6 +162,7 @@ def article(request):
         testFlag = request.session['testFlag']
         content = {
             'topicName': topicName,
+            'topicId': topicId,
             'test': questionChoices,
             'text': text,
             'movies': movies,

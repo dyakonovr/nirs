@@ -2,6 +2,6 @@
 {% block title %}Добавление в группу{% endblock title %}
 {% block content %}
 
-<span>Вы успешно участником группы {{group.group}}! Теперь ваши результаты стали открытыми для {{teacher.username}}!</span>
+<span>Вы успешно участником группы <span class="fw-semibold">{{group.group}}</span>! Теперь ваши результаты стали открытыми для <span class="fw-semibold">{{teacher.last_name}} {{teacher.first_name}}!</span></span>
 
 {% endblock content %}
